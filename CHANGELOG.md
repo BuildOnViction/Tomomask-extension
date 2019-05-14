@@ -1,322 +1,159 @@
 # Changelog
 
-## Current Develop Branch
-
-## 6.4.1 Fri Apr 26 2019
-
-- [#6521](https://github.com/MetaMask/metamask-extension/pull/6521): Revert "Adds 4byte registry fallback to getMethodData()" to fix stalling bug.
-
-## 6.4.0 Wed Apr 17 2019
-
-- [#6445](https://github.com/MetaMask/metamask-extension/pull/6445): * Move send to pages/
-- [#6470](https://github.com/MetaMask/metamask-extension/pull/6470): update publishing.md with dev diagram
-- [#6403](https://github.com/MetaMask/metamask-extension/pull/6403): Update to eth-method-registry@1.2.0
-- [#6468](https://github.com/MetaMask/metamask-extension/pull/6468): Fix switcher height when Custom RPC is selected or loading
-- [#6459](https://github.com/MetaMask/metamask-extension/pull/6459): feature: add Goerli support
-- [#6444](https://github.com/MetaMask/metamask-extension/pull/6444): Fixes #6321 & #6421 - Add Localhost 8545 for network dropdown names
-- [#6454](https://github.com/MetaMask/metamask-extension/pull/6454): Bump eth-contract-metadata
-- [#6448](https://github.com/MetaMask/metamask-extension/pull/6448): Remove unneeded array cloning in getSendToAccounts selector
-- [#6056](https://github.com/MetaMask/metamask-extension/pull/6056): repeated getSelectedAddress() func send.selectors.js removed
-- [#6422](https://github.com/MetaMask/metamask-extension/pull/6422): Added Chrome limited site access solution doc
-- [#6424](https://github.com/MetaMask/metamask-extension/pull/6424): feature: switch token pricing to CoinGecko API
-- [#6428](https://github.com/MetaMask/metamask-extension/pull/6428): Don't inject web3 on sharefile.com
-- [#6417](https://github.com/MetaMask/metamask-extension/pull/6417): Metrics updates
-- [#6420](https://github.com/MetaMask/metamask-extension/pull/6420): Fix links to MetamaskInpageProvider in porting_to_new_environment.md
-- [#6362](https://github.com/MetaMask/metamask-extension/pull/6362): Remove broken image walkthrough from metamaskbot comment
-- [#6401](https://github.com/MetaMask/metamask-extension/pull/6401): metamask-controller - use improved provider-as-middleware utility
-- [#6406](https://github.com/MetaMask/metamask-extension/pull/6406): remove user actions controller
-- [#6399](https://github.com/MetaMask/metamask-extension/pull/6399): doc - publishing - typo fix
-- [#6396](https://github.com/MetaMask/metamask-extension/pull/6396): pin eth-contract-metadata to last commit hash
-- [#6397](https://github.com/MetaMask/metamask-extension/pull/6397): Change coinbase to wyre
-- [#6395](https://github.com/MetaMask/metamask-extension/pull/6395): bump ledger and trezor keyring
-- [#6389](https://github.com/MetaMask/metamask-extension/pull/6389): Fix display of gas chart on Ethereum networks
-- [#6382](https://github.com/MetaMask/metamask-extension/pull/6382): Remove NoticeController
-
-## 6.3.2 Mon Apr 8 2019
-
-- [#6389](https://github.com/MetaMask/metamask-extension/pull/6389): Fix display of gas chart on ethereum networks
-- [#6395](https://github.com/MetaMask/metamask-extension/pull/6395): Fixes for signing methods for ledger and trezor devices
-- [#6397](https://github.com/MetaMask/metamask-extension/pull/6397): Fix Wyre link
-
-## 6.3.1 Fri Mar 26 2019
-
-- [#6353](https://github.com/MetaMask/metamask-extension/pull/6353): Open restore vault in full screen when clicked from popup
-- [#6372](https://github.com/MetaMask/metamask-extension/pull/6372): Prevents duplicates of account addresses from showing in send screen "To" dropdown
-- [#6374](https://github.com/MetaMask/metamask-extension/pull/6374): Ensures users are placed on correct confirm screens even when registry service fails
-
-## 6.3.0 Mon Mar 25 2019
-
-- [#6300](https://github.com/MetaMask/metamask-extension/pull/6300): Gas chart hidden on custom networks
-- [#6301](https://github.com/MetaMask/metamask-extension/pull/6301): Fix gas fee in the submitted step of the transaction details activity log
-- [#6302](https://github.com/MetaMask/metamask-extension/pull/6302): Replaces the coinbase link in the deposit modal with one for wyre
-- [#6307](https://github.com/MetaMask/metamask-extension/pull/6307): Centre the notification in the current window
-- [#6312](https://github.com/MetaMask/metamask-extension/pull/6312): Fixes popups not showing when screen size is odd
-- [#6326](https://github.com/MetaMask/metamask-extension/pull/6326): Fix oversized loading overlay on gas customization modal.
-- [#6330](https://github.com/MetaMask/metamask-extension/pull/6330): Stop reloading dapps on network change allowing dapps to decide if it should refresh or not
-- [#6332](https://github.com/MetaMask/metamask-extension/pull/6332): Enable mobile sync
-- [#6333](https://github.com/MetaMask/metamask-extension/pull/6333): Redesign of the settings screen
-- [#6340](https://github.com/MetaMask/metamask-extension/pull/6340): Cancel transactions and signature requests on the closing of notification windows
-- [#6341](https://github.com/MetaMask/metamask-extension/pull/6341): Disable transaction "Cancel" button when balance is insufficient
-- [#6347](https://github.com/MetaMask/metamask-extension/pull/6347): Enable privacy mode by default for first time users
-
-## 6.2.2 Tue Mar 12 2019
-
-- [#6271](https://github.com/MetaMask/metamask-extension/pull/6271): Centre all notification popups
-- [#6268](https://github.com/MetaMask/metamask-extension/pull/6268): Improve Korean translations
-- [#6279](https://github.com/MetaMask/metamask-extension/pull/6279): Nonmultiple notifications for batch txs
-- [#6280](https://github.com/MetaMask/metamask-extension/pull/6280): No longer check network when validating checksum addresses
-
-## 6.2.1 Wed Mar 06 2019
-
-## 6.2.0 Tue Mar 05 2019
-- [#6192](https://github.com/MetaMask/metamask-extension/pull/6192): Improves design and UX of onboarding flow
-- [#6195](https://github.com/MetaMask/metamask-extension/pull/6195): Fixes gas estimation when sending to contracts
-- [#6223](https://github.com/MetaMask/metamask-extension/pull/6223): Fixes display of notification windows when metamask is active in a tab
-- [#6171](https://github.com/MetaMask/metamask-extension/pull/6171): Adds MetaMetrics usage analytics system
-
-## 6.1.0 Tue Feb 19 2019
-
-- [#6182](https://github.com/MetaMask/metamask-extension/pull/6182): Change "Token Address" to "Token Contract Address"
-- [#6177](https://github.com/MetaMask/metamask-extension/pull/6177): Fixes #6176
-- [#6146](https://github.com/MetaMask/metamask-extension/pull/6146): * Add Copy Tx ID button to transaction-list-item-details
-- [#6133](https://github.com/MetaMask/metamask-extension/pull/6133): Checksum address before slicing it for the confirm screen
-- [#6147](https://github.com/MetaMask/metamask-extension/pull/6147): Add button to force edit token symbol when adding custom token
-- [#6124](https://github.com/MetaMask/metamask-extension/pull/6124): recent-blocks - dont listen for block when on infura providers
--[#5973] (https://github.com/MetaMask/metamask-extension/pull/5973): Fix incorrectly showing checksums on non-ETH blockchains (issue 5838)
-
-## 6.0.1 Tue Feb 12 2019
-
-- [#6139](https://github.com/MetaMask/metamask-extension/pull/6139) Fix advanced gas controls on the confirm screen
-- [#6134](https://github.com/MetaMask/metamask-extension/pull/6134) Trim whitespace from seed phrase during import
-- [#6119](https://github.com/MetaMask/metamask-extension/pull/6119) Update Italian translation
-- [#6125](https://github.com/MetaMask/metamask-extension/pull/6125) Improved Traditional Chinese translation
-
-
-## 6.0.0 Thu Feb 07 2019
-
-- [#6082](https://github.com/MetaMask/metamask-extension/pull/6082): Migrate all users to the new UI
-- [#6114](https://github.com/MetaMask/metamask-extension/pull/6114): Add setting for inputting gas price with a text field for advanced users.
-- [#6091](https://github.com/MetaMask/metamask-extension/pull/6091): Add Swap feature to CurrencyInput
-- [#6090](https://github.com/MetaMask/metamask-extension/pull/6090): Change gas labels to Slow/Average/Fast
-- [#6112](https://github.com/MetaMask/metamask-extension/pull/6112): Extract advanced gas input controls to their own component
-- [#5929](https://github.com/MetaMask/metamask-extension/pull/5929): Update design of phishing warning screen
-- [#6120](https://github.com/MetaMask/metamask-extension/pull/6120): Add class to sign footer button
-- [#6116](https://github.com/MetaMask/metamask-extension/pull/6116): Fix locale codes contains underscore never being preferred
-
-## 5.3.5 Mon Feb 4 2019
+## Current Master
 
-- [#6084](https://github.com/MetaMask/metamask-extension/pull/6087): Privacy mode fixes
-
-## 5.3.4 Thu Jan 31 2019
+## 4.11.5 Thu Apr 18 2019
 
-- [#6079](https://github.com/MetaMask/metamask-extension/pull/6079): fix - migration 30
+- [#279](https://github.com/poanetwork/nifty-wallet/pull/279): (Fix) utf8 encoding in contentscript.js
 
-## 5.3.3 Wed Jan 30 2019
+## 4.11.4 Mon Apr 15 2019
 
-- [#6006](https://github.com/MetaMask/metamask-extension/pull/6006): Update privacy notice
-- [#6072](https://github.com/MetaMask/metamask-extension/pull/6072): Improved Spanish translations
-- [#5854](https://github.com/MetaMask/metamask-extension/pull/5854): Add visual indicator when displaying a cached balance.
-- [#6044](https://github.com/MetaMask/metamask-extension/pull/6044): Fix bug that interferred with using multiple custom networks.
+- [#277](https://github.com/poanetwork/nifty-wallet/pull/277): (Fix) USD price for ETC coin
+- [#276](https://github.com/poanetwork/nifty-wallet/pull/276): (Fix) Remove js obfuscation
 
-## 5.3.2 Mon Jan 28 2019
+## 4.11.3 Fri Mar 29 2019
 
-- [#6021](https://github.com/MetaMask/metamask-extension/pull/6021): Order shapeshift transactions by time within the transactions list
-- [#6052](https://github.com/MetaMask/metamask-extension/pull/6052): Add and use cached method signatures to reduce provider requests
-- [#6048](https://github.com/MetaMask/metamask-extension/pull/6048): Refactor BalanceComponent to jsx
-- [#6026](https://github.com/MetaMask/metamask-extension/pull/6026): Prevent invalid chainIds when adding custom rpcs
-- [#6029](https://github.com/MetaMask/metamask-extension/pull/6029): Fix grammar error in Current Conversion
-- [#6024](https://github.com/MetaMask/metamask-extension/pull/6024): Disable account dropdown on signing screens
+- [#272](https://github.com/poanetwork/nifty-wallet/pull/272): Update Classic RPC endpoint
 
-## 5.3.1 Wed Jan 16 2019
+## 4.11.2 Wed Mar 27 2019
 
-- [#5966](https://github.com/MetaMask/metamask-extension/pull/5966): Update Slovenian translation
-- [#6005](https://github.com/MetaMask/metamask-extension/pull/6005): Set auto conversion off for token/eth conversion
-- [#6008](https://github.com/MetaMask/metamask-extension/pull/6008): Fix confirm screen for sending ether tx with hex data
-- [#5999](https://github.com/MetaMask/metamask-extension/pull/5999): Refine app description
-- [#5997](https://github.com/MetaMask/metamask-extension/pull/5997): Harden Drizzle test runner script
-- [#5995](https://github.com/MetaMask/metamask-extension/pull/5995): Fix bug where MetaMask user calls non-standard ERC20 methods such as `mint`, `tokenData` will be `undefined` and an uncaught error will break the UI
-- [#5970](https://github.com/MetaMask/metamask-extension/pull/5970): Fixed a word in french translation (several occurrences of connection instead of connexion)
-- [#5977](https://github.com/MetaMask/metamask-extension/pull/5977): Fix Component#componentDidUpdate usage
-- [#5992](https://github.com/MetaMask/metamask-extension/pull/5992): Add scrolling button to account list
-- [#5989](https://github.com/MetaMask/metamask-extension/pull/5989): fix typo in phishing.html title
+- [#270](https://github.com/poanetwork/nifty-wallet/pull/270): (Feature) Support of gas price oracles for ETH, ETC
+- [#268](https://github.com/poanetwork/nifty-wallet/pull/268): (Feature) Support of Ethereum Classic chain
 
-## 5.3.0 Wed Jan 02 2019
+## 4.11.1 Wed Mar 20 2019
 
-- [#5978](https://github.com/MetaMask/metamask-extension/pull/5978): Fix etherscan links on notifications
-- [#5980](https://github.com/MetaMask/metamask-extension/pull/5980): Fix drizzle tests
-- [#5922](https://github.com/MetaMask/metamask-extension/pull/5922): Prevent users from changing the From field in the send screen
-- [#5932](https://github.com/MetaMask/metamask-extension/pull/5932): Fix displayed time and date in the activity log. Remove vreme library, add luxon library.
-- [#5924](https://github.com/MetaMask/metamask-extension/pull/5924): transactions - throw an error if a transaction is generated while the network is loading
-- [#5893](https://github.com/MetaMask/metamask-extension/pull/5893): Add loading network screen
+- [#266](https://github.com/poanetwork/nifty-wallet/pull/266): (Fix) Support of the latest trezor-connect version 7
+- [#263](https://github.com/poanetwork/nifty-wallet/pull/263): (Refactoring) Refine dropdown components
 
-## 5.2.2 Wed Dec 12 2018
+## 4.11.0 Fri Feb 08 2019
 
-- [#5925](https://github.com/MetaMask/metamask-extension/pull/5925): Fix speed up button not showing for transactions with the lowest nonce
-- [#5923](https://github.com/MetaMask/metamask-extension/pull/5923): Update the Phishing Warning notice text to not use inline URLs
-- [#5919](https://github.com/MetaMask/metamask-extension/pull/5919): Fix some styling and translations in the gas customization modal
+### Features
 
-## 5.2.1 Wed Dec 12 2018
+- [#262](https://github.com/poanetwork/nifty-wallet/pull/262): (Feature) Add native support of Görli testnet
+- [#254](https://github.com/poanetwork/nifty-wallet/pull/254): (Feature) HitBTC exchange for core POA network
+- [#251](https://github.com/poanetwork/nifty-wallet/pull/251): (Feature) Delegate Proxy contract type (EIP-897)
+- [#252](https://github.com/poanetwork/nifty-wallet/pull/252): (Feature) Simultaneous support of Trezor and Ledger HD wallets
+- [#250](https://github.com/poanetwork/nifty-wallet/pull/250): (Feature) Support of multiple accounts from Trezor HD wallet for single session
+- [#237](https://github.com/poanetwork/nifty-wallet/pull/237): (Feature) Multiple Ledger accounts for one session
+- [#249](https://github.com/poanetwork/nifty-wallet/pull/249): (Feature) Textarea instead of input for array type outputs in contract calls
+- [#247](https://github.com/poanetwork/nifty-wallet/pull/247): (Update) Change exchange rate API endpoint
 
-- [#5917] bugfix: Ensures that advanced tab gas limit reflects tx gas limit
+### Fixes
 
-## 5.2.0 Mon Dec 11 2018
+- [#261](https://github.com/poanetwork/nifty-wallet/pull/261): (Fix) Clear timeout on componentWillUnmount in connect hardware screen
+- [#260](https://github.com/poanetwork/nifty-wallet/pull/260): (Fix) Remove unit && integration tests for unused components
+- [#258](https://github.com/poanetwork/nifty-wallet/pull/258): (Fix) ENS validation fix for Send transaction screen
+- [#257](https://github.com/poanetwork/nifty-wallet/pull/257): (Fix) Replace poa.infura.io with core.poa.network in e2e
+- [#248](https://github.com/poanetwork/nifty-wallet/pull/248): (Fix) validation for calling data from contract: Default `0x` value for _bytes_ field type should be set only for input fields
+
+### Refactoring
+
+- [#259](https://github.com/poanetwork/nifty-wallet/pull/259): (Refactoring) Refactor copy component
+- [#256](https://github.com/poanetwork/nifty-wallet/pull/256): (Refactoring) Send-token component
+- [#253](https://github.com/poanetwork/nifty-wallet/pull/253): (Refactoring) Refactor network props enums
 
-- [#5704] Implements new gas customization features for sending, confirming and speeding up transactions
-- [#5886] Groups transactions - speed up, cancel and original - by nonce in the transaction history list
-- [#5892] bugfix: eliminates infinite spinner issues caused by switching quickly from a loading network that ultimately fails to resolve
-- [$5902] bugfix: provider crashes caused caching issues in `json-rpc-engine`. Fixed in (https://github.com/MetaMask/json-rpc-engine/commit/6de511afbd03ccef4550ea43ff4010b7d7a84039)
-
-## 5.1.0 Mon Dec 03 2018
-
-- [#5860](https://github.com/MetaMask/metamask-extension/pull/5860): Fixed an infinite spinner bug.
-- [#5875](https://github.com/MetaMask/metamask-extension/pull/5875): Update phishing warning copy
-- [#5863](https://github.com/MetaMask/metamask-extension/pull/5863): bugfix: normalize contract addresss when fetching exchange rates
-- [#5843](https://github.com/MetaMask/metamask-extension/pull/5843): Use selector for state.metamask.accounts in all cases.
-
-## 5.0.4 Thu Nov 29 2018
-
-- [#5878](https://github.com/MetaMask/metamask-extension/pull/5878): Formats 32-length byte strings passed to personal_sign as hex, rather than UTF8.
-- [#5840](https://github.com/MetaMask/metamask-extension/pull/5840): transactions/tx-gas-utils - add the acctual response for eth_getCode for NO_CONTRACT_ERROR's && add a debug object to simulationFailed
-- [#5848](https://github.com/MetaMask/metamask-extension/pull/5848): Soften accusatory language on phishing warning
-- [#5835](https://github.com/MetaMask/metamask-extension/pull/5835): Open full-screen UI on install
-- Locked versions for some dependencies to avoid possible issues from event-stream hack.
-- [#5831](https://github.com/MetaMask/metamask-extension/pull/5831): Hide app-header when provider request pending
-- [#5786](https://github.com/MetaMask/metamask-extension/pull/5786): * transactions - autofill gasPrice for retry attempts with either the recomened gasprice or a %10 bump
-- [#5801](https://github.com/MetaMask/metamask-extension/pull/5801): transactions - ensure err is defined when setting tx failed
-- [#5792](https://github.com/MetaMask/metamask-extension/pull/5792): Consider HW Wallets for signTypedMessage
-- [#5829](https://github.com/MetaMask/metamask-extension/pull/5829): Show disabled cursor in .network-disabled state
-- [#5827](https://github.com/MetaMask/metamask-extension/pull/5827): Trim whitespace from seed phrase during import
-- [#5832](https://github.com/MetaMask/metamask-extension/pull/5832): Show Connect Requests count in extension badge
-- [#5816](https://github.com/MetaMask/metamask-extension/pull/5816): Increase Token Symbol length to twelve
-- [#5819](https://github.com/MetaMask/metamask-extension/pull/5819): With the EIP 1102 updates, MetaMask *does* now open itself when visiting some websites. Changed the wording here to clarify that MetaMask will not open itself to ask you for your seed phrase.
-- [#5810](https://github.com/MetaMask/metamask-extension/pull/5810): Bump Node version to 8.13
-- [#5797](https://github.com/MetaMask/metamask-extension/pull/5797): Add Firefox and Brave support for Trezor
-- [#5799](https://github.com/MetaMask/metamask-extension/pull/5799): Fix usage of setState in ConfirmTransactionBase#handleSubmit
-- [#5798](https://github.com/MetaMask/metamask-extension/pull/5798): Show byte count for hex data on confirm screen
-- [#5334](https://github.com/MetaMask/metamask-extension/pull/5334): Default to the new UI for first time users
-- [#5791](https://github.com/MetaMask/metamask-extension/pull/5791): Bump eth-ledger-bridge-keyring
-
-## 5.0.3 Mon Nov 19 2018
-
-- [#5547](https://github.com/MetaMask/metamask-extension/pull/5547): Bundle some ui dependencies separately to limit the build size of ui.js
-- Resubmit approved transactions on new block, to fix bug where an error can stick transactions in this state.
-- Fixed a bug that could cause an error when sending the max number of tokens.
-
-## 5.0.2 Friday November 9 2018
-
-- Fixed bug that caused accounts to update slowly to sites. #5717
-- Fixed bug that could lead to some sites crashing. #5709
-
-## 5.0.1 Wednesday November 7 2018
-
-- Fixed bug in privacy mode that made it not work correctly on Firefox.
-
-## 5.0.0 Tuesday November 6 2018
-
-- Implements EIP 1102 as a user-activated "Privacy Mode".
-
-## 4.17.1 Saturday November 3 2018
-
-- Revert chain ID lookup change which introduced a bug which caused problems when connecting to mainnet via Infura's RESTful API.
-
-## 4.17.0 Thursday November 1 2018
-
-- Fix bug where data lookups like balances would get stale data (stopped block-tracker bug)
-- Transaction Details now show entry for onchain failure
-- [#5559](https://github.com/MetaMask/metamask-extension/pull/5559) Localize language names in translation select list
-- [#5283](https://github.com/MetaMask/metamask-extension/pull/5283): Fix bug when eth.getCode() called with no contract
-- [#5563](https://github.com/MetaMask/metamask-extension/pull/5563#pullrequestreview-166769174) Feature: improve Hatian Creole translations
-- Feature: improve Slovenian translations
-- Add support for alternate `wallet_watchAsset` rpc method name
-- Attempt chain ID lookup via `eth_chainId` before `net_version`
-- Fix account display width for large currency values
-
-## 4.16.0 Wednesday October 17 2018
-
-- Feature: Add toggle for primary currency (eth/fiat)
-- Feature: add tooltip for view etherscan tx
-- Feature: add Polish translations
-- Feature: improve Korean translations
-- Feature: improve Italian translations
-- Bug Fix: Fix bug with "pending" block reference
-- Bug Fix: Force AccountTracker to update balances on network change
-- Bug Fix: Fix document extension check when injecting web3
-- Bug Fix: Fix some support links
-
-## 4.15.0 Thursday October 11 2018
-
-- A rollback release, equivalent to `v4.11.1` to be deployed in the case that `v4.14.0` is found to have bugs.
-
-## 4.14.0 Thursday October 11 2018
-
-- Update transaction statuses when switching networks.
-- [#5470](https://github.com/MetaMask/metamask-extension/pull/5470) 100% coverage in French locale, fixed the procedure to verify proposed locale.
-- Added rudimentary support for the subscription API to support web3 1.0 and Truffle's Drizzle.
-- [#5502](https://github.com/MetaMask/metamask-extension/pull/5502) Update Italian translation.
-
-## 4.13.0
-
-- A rollback release, equivalent to `v4.11.1` to be deployed in the case that `v4.12.0` is found to have bugs.
-
-## 4.12.0 Thursday September 27 2018
-
-- Reintroduces changes from 4.10.0
-
-## 4.11.1 Tuesday September 25 2018
-
-- Adds Ledger support.
-
-## 4.11.0 Monday September 24 2018
-
-- Identical to 4.9.3. A rollback version to give time to fix bugs in the 4.10.x branch.
-
-## 4.10.0 Mon Sep 17 2018
-
-- [#4803](https://github.com/MetaMask/metamask-extension/pull/4803): Implement EIP-712: Sign typed data, but continue to support v1.
-- [#4898](https://github.com/MetaMask/metamask-extension/pull/4898): Restore multiple consecutive accounts with balances.
-- [#4279](https://github.com/MetaMask/metamask-extension/pull/4279): New BlockTracker and Json-Rpc-Engine based Provider.
-- [#5050](https://github.com/MetaMask/metamask-extension/pull/5050): Add Ledger hardware wallet support.
-- [#4919](https://github.com/MetaMask/metamask-extension/pull/4919): Refactor and Redesign Transaction List.
-- [#5182](https://github.com/MetaMask/metamask-extension/pull/5182): Add Transaction Details to the Transaction List view.
-- [#5229](https://github.com/MetaMask/metamask-extension/pull/5229): Clear old seed words when importing new seed words.
-- [#5264](https://github.com/MetaMask/metamask-extension/pull/5264): Improve click area for adjustment arrows buttons.
-- [#4606](https://github.com/MetaMask/metamask-extension/pull/4606): Add new metamask_watchAsset method.
-- [#5189](https://github.com/MetaMask/metamask-extension/pull/5189): Fix bug where Ropsten loading message is shown when connecting to Kovan.
-- [#5256](https://github.com/MetaMask/metamask-extension/pull/5256): Add mock EIP-1102 support
-
-## 4.9.3 Wed Aug 15 2018
-
-- [#4897](https://github.com/MetaMask/metamask-extension/pull/4897): QR code scan for recipient addresses.
-- [#4961](https://github.com/MetaMask/metamask-extension/pull/4961): Add a download seed phrase link.
-- [#5060](https://github.com/MetaMask/metamask-extension/pull/5060): Fix bug where gas was not updating properly.
-
-## 4.9.2 Mon Aug 09 2018
-
-- [#5020](https://github.com/MetaMask/metamask-extension/pull/5020): Fix bug in migration #28 ( moving tokens to specific accounts )
-
-## 4.9.1 Mon Aug 09 2018
-
-- [#4884](https://github.com/MetaMask/metamask-extension/pull/4884): Allow to have tokens per account and network.
-- [#4989](https://github.com/MetaMask/metamask-extension/pull/4989): Continue to use original signedTypedData.
-- [#5010](https://github.com/MetaMask/metamask-extension/pull/5010): Fix ENS resolution issues.
-- [#5000](https://github.com/MetaMask/metamask-extension/pull/5000): Show error while allowing confirmation of tx where simulation fails.
-- [#4995](https://github.com/MetaMask/metamask-extension/pull/4995): Shows retry button on dApp initialized transactions.
-
-## 4.9.0 Mon Aug 07 2018
-
-- [#4926](https://github.com/MetaMask/metamask-extension/pull/4926): Show retry button on the latest tx of the earliest nonce.
-- [#4888](https://github.com/MetaMask/metamask-extension/pull/4888): Suggest using the new user interface.
-- [#4947](https://github.com/MetaMask/metamask-extension/pull/4947): Prevent sending multiple transasctions on multiple confirm clicks.
-- [#4844](https://github.com/MetaMask/metamask-extension/pull/4844): Add new tokens auto detection.
-- [#4667](https://github.com/MetaMask/metamask-extension/pull/4667): Remove rejected transactions from transaction history.
-- [#4625](https://github.com/MetaMask/metamask-extension/pull/4625): Add Trezor Support.
-- [#4625](https://github.com/MetaMask/metamask-extension/pull/4625/commits/523cf9ad33d88719520ae5e7293329d133b64d4d): Allow to remove accounts (Imported and Hardware Wallets)
-- [#4814](https://github.com/MetaMask/metamask-extension/pull/4814): Add hex data input to send screen.
-- [#4691](https://github.com/MetaMask/metamask-extension/pull/4691): Redesign of the Confirm Transaction Screen.
-- [#4840](https://github.com/MetaMask/metamask-extension/pull/4840): Now shows notifications when transactions are completed.
-- [#4855](https://github.com/MetaMask/metamask-extension/pull/4855): Allow the use of HTTP prefix for custom rpc urls.
-- [#4855](https://github.com/MetaMask/metamask-extension/pull/4855): network.js: convert rpc protocol to lower case.
-- [#4898](https://github.com/MetaMask/metamask-extension/pull/4898): Restore multiple consecutive accounts with balances.
+## 4.10.1 Sat Dec 29 2018
+
+- [#219](https://github.com/poanetwork/nifty-wallet/pull/219): (Feature) Multiple output fields support for contract call
+- [#229](https://github.com/poanetwork/nifty-wallet/pull/229): (Feature) Select for Boolean type input in contract call/execution
+- [#239](https://github.com/poanetwork/nifty-wallet/pull/239): (Feature) Reorder contract executors: owners are first
+- [#233](https://github.com/poanetwork/nifty-wallet/pull/233): (Feature) Copy contract ABI from account menu
+- [#226](https://github.com/poanetwork/nifty-wallet/pull/226): (Feature) Different label for HD account
+- [#238](https://github.com/poanetwork/nifty-wallet/pull/238): (Fix) Unlock back contract account on rejecting/accepting of contract execution transaction
+- [#224](https://github.com/poanetwork/nifty-wallet/pull/224): (Fix) Bytes is not a mandatory input in contract call/execution
+- [#232](https://github.com/poanetwork/nifty-wallet/pull/232): (Fix) *Execute methods* button instead of *Buy*/*Send* for contract type account
+
+
+## 4.10.0 Tue Dec 04 2018
+
+- [#212](https://github.com/poanetwork/nifty-wallet/pull/212): (Feature) Interact with smart-contracts
+- [#209](https://github.com/poanetwork/nifty-wallet/pull/209): (Fix) Enhance custom RPC validation
+
+## 4.9.0 Mon Nov 26 2018
+
+- [#183](https://github.com/poanetwork/nifty-wallet/pull/183), [#205](https://github.com/poanetwork/nifty-wallet/pull/205): HD wallets support
+- [#199](https://github.com/poanetwork/nifty-wallet/pull/199): (Fix) Doubled fired events
+- [#190](https://github.com/poanetwork/nifty-wallet/pull/190): (Fix) Display non-zero fiat value
+- [#189](https://github.com/poanetwork/nifty-wallet/pull/189): (Fix) Branding of phishing detection page
+- [#207](https://github.com/poanetwork/nifty-wallet/pull/207): (Fix) Format of token balance in the tokens list
+- [#191](https://github.com/poanetwork/nifty-wallet/pull/191): (Fix) Handle: Cannot read property address of undefined
+- [#202](https://github.com/poanetwork/nifty-wallet/pull/202): (Fix) Detect tokens: handle undefined tokenAddresses
+- [#203](https://github.com/poanetwork/nifty-wallet/pull/203): (Fix) Handle undefined txParams
+- [#204](https://github.com/poanetwork/nifty-wallet/pull/204): (Fix) Handle e.trim is not a function
+
+## 4.8.8 Fri Nov 09 2018
+
+- [#186](https://github.com/poanetwork/nifty-wallet/pull/186): (Fix) Do not retrieve token metadata for non-token pending tx
+- [#184](https://github.com/poanetwork/nifty-wallet/pull/184): (Update) Rename repository
+- [#182](https://github.com/poanetwork/nifty-wallet/pull/182): (Refactoring) Generalizing of retrieving of faucets/exchanges links
+
+## 4.8.7 Tue Nov 06 2018
+
+- [#180](https://github.com/poanetwork/metamask-extension/pull/180), [#172](https://github.com/poanetwork/metamask-extension/pull/172), [#169](https://github.com/poanetwork/metamask-extension/pull/169), [#165](https://github.com/poanetwork/metamask-extension/pull/165), [#160](https://github.com/poanetwork/metamask-extension/pull/160): (Fix) Memory leaks
+- [#177](https://github.com/poanetwork/metamask-extension/pull/177): (Fix) Zero balance display instead of "None"
+- [#175](https://github.com/poanetwork/metamask-extension/pull/175), [#176](https://github.com/poanetwork/metamask-extension/pull/176), [#178](https://github.com/poanetwork/metamask-extension/pull/178): (Feature) Auto-detect tokens for POA
+- [#164](https://github.com/poanetwork/metamask-extension/pull/164): (Fix) Confirm token transfer page display fix
+
+## 4.8.6 Thu Oct 18 2018
+
+- [#153](https://github.com/poanetwork/metamask-extension/pull/153), [#154](https://github.com/poanetwork/metamask-extension/pull/154), [#158](https://github.com/poanetwork/metamask-extension/pull/158): (Feature) xDai chain support
+- [#149](https://github.com/poanetwork/metamask-extension/pull/149), [#150](https://github.com/poanetwork/metamask-extension/pull/150): (Fix) Add custom tokens validation
+- [#145](https://github.com/poanetwork/metamask-extension/pull/145), [#146](https://github.com/poanetwork/metamask-extension/pull/146): (Feature) Transfer tokens
+- [#142](https://github.com/poanetwork/metamask-extension/pull/142), [#143](https://github.com/poanetwork/metamask-extension/pull/143): (Feature) Token menu: view in explorer/copy/remove
+- [#140](https://github.com/poanetwork/metamask-extension/pull/140): (Feature) Search tokens in POA network
+- [#135](https://github.com/poanetwork/metamask-extension/pull/135), [#138](https://github.com/poanetwork/metamask-extension/pull/138), [#141](https://github.com/poanetwork/metamask-extension/pull/141): (Feature) Search tokens (in Mainnet)
+- [#132](https://github.com/poanetwork/metamask-extension/pull/132), [#133](https://github.com/poanetwork/metamask-extension/pull/133): (Fix) empty keyring on wrong password
+- [#130](https://github.com/poanetwork/metamask-extension/pull/130): (Fix) remove test domains form ENS resolver
+- [#128](https://github.com/poanetwork/metamask-extension/pull/128): (Fix) Clear an error on successful response from tokens balances
+- [#127](https://github.com/poanetwork/metamask-extension/pull/127): (Fix) Error is constantly shown through screens
+- [#122](https://github.com/poanetwork/metamask-extension/pull/122): (Fix) Remove fox animation components
+- [#120](https://github.com/poanetwork/metamask-extension/pull/120): (Feature) Update token's balance on account switch
+- [#119](https://github.com/poanetwork/metamask-extension/pull/119): (Fix) Shapeshift logo from local storage
+- [#118](https://github.com/poanetwork/metamask-extension/pull/118), [#123](https://github.com/poanetwork/metamask-extension/pull/123): (Feature) Copy button from main account page
+- [#104](https://github.com/poanetwork/metamask-extension/pull/104), [#108](https://github.com/poanetwork/metamask-extension/pull/108), [#109](https://github.com/poanetwork/metamask-extension/pull/109), [#116](https://github.com/poanetwork/metamask-extension/pull/116), [#121](https://github.com/poanetwork/metamask-extension/pull/121): (Feature) Support of Firefox
+- [#103](https://github.com/poanetwork/metamask-extension/pull/103): (Fix) to display localhost:8545 in Settings
+- [#101](https://github.com/poanetwork/metamask-extension/pull/101): (Fix) Catch Promises errors
+- [#99](https://github.com/poanetwork/metamask-extension/pull/99), [#100](https://github.com/poanetwork/metamask-extension/pull/100): (Fix) Validate custom RPC
+- [#98](https://github.com/poanetwork/metamask-extension/pull/98): (Feature) Unlimited amount of custom RPC
+
+## 4.8.5 Mon Aug 27 2018
+
+- [#94](https://github.com/poanetwork/metamask-extension/pull/94): (Fix) Force open notification popup
+- [#93](https://github.com/poanetwork/metamask-extension/pull/93): (Fix) Empty pending tx screen after logout/login
+- [#91](https://github.com/poanetwork/metamask-extension/pull/91): (Fix) Confirm tx notification popup: network name
+- [#89](https://github.com/poanetwork/metamask-extension/pull/89), [#95](https://github.com/poanetwork/metamask-extension/pull/95): (Feature) Support of token per network basis
+- [#85](https://github.com/poanetwork/metamask-extension/pull/85): (Upgrade) node, npm packages versions
+- [#84](https://github.com/poanetwork/metamask-extension/pull/84): (Fix) Change green color
+- [#83](https://github.com/poanetwork/metamask-extension/pull/83), [#92](https://github.com/poanetwork/metamask-extension/pull/92): (Feature) Changing of password
+- [#81](https://github.com/poanetwork/metamask-extension/pull/81): (Feature) Deanonymize private network
+- [#80](https://github.com/poanetwork/metamask-extension/pull/80): (Feature) Remove imported account
+- [#78](https://github.com/poanetwork/metamask-extension/pull/78): (Fix) Link to POA explorer for POA networks
+
+## 4.8.4 Thu Aug 09 2018
+
+- [#70](https://github.com/poanetwork/metamask-extension/pull/70): Change ShapeShift API key
+- [#69](https://github.com/poanetwork/metamask-extension/pull/69): Restyling: fix page headers, redesigned warnings, fix paddings, update some icons, redesigned page for buying, redesigned confirm screens, redesigned account menu
+- [#67](https://github.com/poanetwork/metamask-extension/pull/67): Improve performance when big list of sent transactions from account
+- [#66](https://github.com/poanetwork/metamask-extension/pull/66): Added possibility to remove custom RPC from the list of networks
+
+## 4.8.3 Fri Aug 03 2018
+
+- [#59](https://github.com/poanetwork/metamask-extension/pull/59): Update e2e test of Terms of Use page
+- [#58](https://github.com/poanetwork/metamask-extension/pull/58): Update Terms of Use page style
+- [#57](https://github.com/poanetwork/metamask-extension/pull/57): Optimized images for release.
+- [#55](https://github.com/poanetwork/metamask-extension/pull/55): Tests fix.
+- [#52](https://github.com/poanetwork/metamask-extension/pull/52): TomoMask restyling.
+- [#54](https://github.com/poanetwork/metamask-extension/pull/54): Fix explorer url for POA network on confirmed transaction.
+- [#50](https://github.com/poanetwork/metamask-extension/pull/50): Update sentry links.
+- [#45](https://github.com/poanetwork/metamask-extension/pull/45): Automate release publish.
+- [#39](https://github.com/poanetwork/metamask-extension/pull/39): Swap npm Jazzicon dependency to Rockicon with changed palette for identicon
+
+## 4.8.2 Thu Jul 26 2018
+
+- Add new tokens auto detection
+- Remove rejected transactions from transaction history
+- Add Trezor Support
+- Allow to remove accounts (Imported and Hardware Wallets)
 
 ## 4.8.0 Thur Jun 14 2018
 
@@ -364,7 +201,6 @@
 - Font weight changed from 300 to 400.
 - New reveal screen design.
 - Styling improvements to labels in first time flow and signature request headers.
-- Allow other extensions to make access our ethereum provider API ([#3997](https://github.com/MetaMask/metamask-extension/pull/3997))
 
 ## 4.6.1 Mon Apr 30 2018
 

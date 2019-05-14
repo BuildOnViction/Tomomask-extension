@@ -26,18 +26,6 @@ const pify = require('pify')
 const gulpMultiProcess = require('gulp-multi-process')
 const endOfStream = pify(require('end-of-stream'))
 
-const packageJSON = require('./package.json')
-const dependencies = Object.keys(packageJSON && packageJSON.dependencies || {})
-const materialUIDependencies = ['@material-ui/core']
-const reactDepenendencies = dependencies.filter(dep => dep.match(/react/))
-const d3Dependencies = ['c3', 'd3']
-
-const uiDependenciesToBundle = [
-  ...materialUIDependencies,
-  ...reactDepenendencies,
-  ...d3Dependencies,
-]
-
 function gulpParallel (...args) {
   return function spawnGulpChildProcess (cb) {
     return gulpMultiProcess(args, cb, true)
@@ -51,6 +39,8 @@ const browserPlatforms = [
   'opera',
 ]
 const commonPlatforms = [
+  // browser webapp
+  'mascara',
   // browser extensions
   ...browserPlatforms,
 ]
@@ -80,6 +70,10 @@ createCopyTasks('contractImages', {
   source: './node_modules/eth-contract-metadata/images/',
   destinations: commonPlatforms.map(platform => `./dist/${platform}/images/contract`),
 })
+createCopyTasks('contractImagesPOA', {
+  source: './node_modules/poa-contract-metadata/images/',
+  destinations: commonPlatforms.map(platform => `./dist/${platform}/images/contractPOA`),
+})
 createCopyTasks('fonts', {
   source: './app/fonts/',
   destinations: commonPlatforms.map(platform => `./dist/${platform}/fonts`),
@@ -106,6 +100,14 @@ createCopyTasks('manifest', {
   source: './app/',
   pattern: '/*.json',
   destinations: browserPlatforms.map(platform => `./dist/${platform}`),
+})
+
+// copy mascara
+
+createCopyTasks('html:mascara', {
+  source: './mascara/',
+  pattern: 'proxy/index.html',
+  destinations: [`./dist/mascara/`],
 })
 
 function createCopyTasks (label, opts) {
@@ -195,21 +197,6 @@ gulp.task('manifest:production', function () {
   .pipe(gulp.dest('./dist/', { overwrite: true }))
 })
 
-gulp.task('manifest:testing', function () {
-  return gulp.src([
-    './dist/firefox/manifest.json',
-    './dist/chrome/manifest.json',
-  ], {base: './dist/'})
-
-  // Exclude chromereload script in production:
-  .pipe(jsoneditor(function (json) {
-    json.permissions = [...json.permissions, 'webRequestBlocking']
-    return json
-  }))
-
-  .pipe(gulp.dest('./dist/', { overwrite: true }))
-})
-
 gulp.task('copy',
   gulp.series(
     gulp.parallel(...copyTaskNames),
@@ -224,15 +211,6 @@ gulp.task('dev:copy',
     gulp.parallel(...copyDevTaskNames),
     'manifest:chrome',
     'manifest:opera'
-  )
-)
-
-gulp.task('test:copy',
-  gulp.series(
-    gulp.parallel(...copyDevTaskNames),
-    'manifest:chrome',
-    'manifest:opera',
-    'manifest:testing'
   )
 )
 
@@ -309,34 +287,12 @@ const buildJsFiles = [
 ]
 
 // bundle tasks
-createTasksForBuildJsUIDeps({ dependenciesToBundle: uiDependenciesToBundle, filename: 'libs' })
 createTasksForBuildJsExtension({ buildJsFiles, taskPrefix: 'dev:extension:js', devMode: true })
-createTasksForBuildJsExtension({ buildJsFiles, taskPrefix: 'dev:test-extension:js', devMode: true, testing: 'true' })
 createTasksForBuildJsExtension({ buildJsFiles, taskPrefix: 'build:extension:js' })
-createTasksForBuildJsExtension({ buildJsFiles, taskPrefix: 'build:test:extension:js', testing: 'true' })
+createTasksForBuildJsMascara({ taskPrefix: 'build:mascara:js' })
+createTasksForBuildJsMascara({ taskPrefix: 'dev:mascara:js', devMode: true })
 
-function createTasksForBuildJsUIDeps ({ filename }) {
-  const destinations = browserPlatforms.map(platform => `./dist/${platform}`)
-
-
-  const bundleTaskOpts = Object.assign({
-    buildSourceMaps: true,
-    sourceMapDir: '../sourcemaps',
-    minifyBuild: true,
-    devMode: false,
-  })
-
-  gulp.task('build:extension:js:uideps', bundleTask(Object.assign({
-    label: filename,
-    filename: `${filename}.js`,
-    destinations,
-    buildLib: true,
-    dependenciesToBundle: uiDependenciesToBundle,
-  }, bundleTaskOpts)))
-}
-
-
-function createTasksForBuildJsExtension ({ buildJsFiles, taskPrefix, devMode, testing, bundleTaskOpts = {} }) {
+function createTasksForBuildJsExtension ({ buildJsFiles, taskPrefix, devMode, bundleTaskOpts = {} }) {
   // inpage must be built before all other scripts:
   const rootDir = './app/scripts'
   const nonInpageFiles = buildJsFiles.filter(file => file !== 'inpage')
@@ -346,13 +302,28 @@ function createTasksForBuildJsExtension ({ buildJsFiles, taskPrefix, devMode, te
   bundleTaskOpts = Object.assign({
     buildSourceMaps: true,
     sourceMapDir: devMode ? './' : '../sourcemaps',
-    minifyBuild: !devMode,
+    minifyBuild: false,
     buildWithFullPaths: devMode,
     watch: devMode,
     devMode,
-    testing,
   }, bundleTaskOpts)
   createTasksForBuildJs({ rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1, buildPhase2 })
+}
+
+function createTasksForBuildJsMascara ({ taskPrefix, devMode, bundleTaskOpts = {} }) {
+  // inpage must be built before all other scripts:
+  const rootDir = './mascara/src/'
+  const buildPhase1 = ['ui', 'proxy', 'background', 'metamascara']
+  const destinations = ['./dist/mascara']
+  bundleTaskOpts = Object.assign({
+    buildSourceMaps: true,
+    sourceMapDir: './',
+    minifyBuild: false,
+    buildWithFullPaths: devMode,
+    watch: devMode,
+    devMode,
+  }, bundleTaskOpts)
+  createTasksForBuildJs({ rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1 })
 }
 
 function createTasksForBuildJs ({ rootDir, taskPrefix, bundleTaskOpts, destinations, buildPhase1 = [], buildPhase2 = [] }) {
@@ -363,7 +334,6 @@ function createTasksForBuildJs ({ rootDir, taskPrefix, bundleTaskOpts, destinati
       label: jsFile,
       filename: `${jsFile}.js`,
       filepath: `${rootDir}/${jsFile}.js`,
-      externalDependencies: jsFile === 'ui' && !bundleTaskOpts.devMode && uiDependenciesToBundle,
       destinations,
     }, bundleTaskOpts)))
   })
@@ -404,19 +374,8 @@ gulp.task('dev',
     'dev:scss',
     gulp.parallel(
       'dev:extension:js',
+      'dev:mascara:js',
       'dev:copy',
-      'dev:reload'
-    )
-  )
-)
-
-gulp.task('dev:test',
-  gulp.series(
-    'clean',
-    'dev:scss',
-    gulp.parallel(
-      'dev:test-extension:js',
-      'test:copy',
       'dev:reload'
     )
   )
@@ -434,28 +393,27 @@ gulp.task('dev:extension',
   )
 )
 
+gulp.task('dev:mascara',
+  gulp.series(
+    'clean',
+    'dev:scss',
+    gulp.parallel(
+      'dev:mascara:js',
+      'dev:copy',
+      'dev:reload'
+    )
+  )
+)
+
 gulp.task('build',
   gulp.series(
     'clean',
     'build:scss',
     gulpParallel(
-      'build:extension:js:uideps',
       'build:extension:js',
+      'build:mascara:js',
       'copy'
     )
-  )
-)
-
-gulp.task('build:test',
-  gulp.series(
-    'clean',
-    'build:scss',
-    gulpParallel(
-      'build:extension:js:uideps',
-      'build:test:extension:js',
-      'copy'
-    ),
-    'manifest:testing'
   )
 )
 
@@ -465,6 +423,17 @@ gulp.task('build:extension',
     'build:scss',
     gulp.parallel(
       'build:extension:js',
+      'copy'
+    )
+  )
+)
+
+gulp.task('build:mascara',
+  gulp.series(
+    'clean',
+    'build:scss',
+    gulp.parallel(
+      'build:mascara:js',
       'copy'
     )
   )
@@ -489,35 +458,19 @@ function zipTask (target) {
 
 function generateBundler (opts, performBundle) {
   const browserifyOpts = assign({}, watchify.args, {
+    entries: [opts.filepath],
     plugin: 'browserify-derequire',
     debug: opts.buildSourceMaps,
     fullPaths: opts.buildWithFullPaths,
   })
 
-  if (!opts.buildLib) {
-    browserifyOpts['entries'] = [opts.filepath]
-  }
-
   let bundler = browserify(browserifyOpts)
-
-  if (opts.buildLib) {
-    bundler = bundler.require(opts.dependenciesToBundle)
-  }
-
-  if (opts.externalDependencies) {
-    bundler = bundler.external(opts.externalDependencies)
-  }
 
   // inject variables into bundle
   bundler.transform(envify({
     METAMASK_DEBUG: opts.devMode,
     NODE_ENV: opts.devMode ? 'development' : 'production',
-    IN_TEST: opts.testing,
-    PUBNUB_SUB_KEY: process.env.PUBNUB_SUB_KEY || '',
-    PUBNUB_PUB_KEY: process.env.PUBNUB_PUB_KEY || '',
-  }), {
-    global: true,
-  })
+  }))
 
   if (opts.watch) {
     bundler = watchify(bundler)
