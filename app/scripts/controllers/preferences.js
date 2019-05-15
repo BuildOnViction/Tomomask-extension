@@ -1,6 +1,6 @@
 const ObservableStore = require('obs-store')
 const normalizeAddress = require('eth-sig-util').normalize
-const { isValidAddress, sha3, bufferToHex } = require('ethereumjs-util')
+const { isValidAddress } = require('ethereumjs-util')
 const extend = require('xtend')
 
 
@@ -18,57 +18,36 @@ class PreferencesController {
    * @property {object} store.assetImages Contains assets objects related to assets added
    * @property {boolean} store.useBlockie The users preference for blockie identicons within the UI
    * @property {object} store.featureFlags A key-boolean map, where keys refer to features and booleans to whether the
-   * user wishes to see that feature.
-   *
-   * Feature flags can be set by the global function `setPreference(feature, enabled)`, and so should not expose any sensitive behavior.
-   * @property {object} store.knownMethodData Contains all data methods known by the user
+   * user wishes to see that feature
    * @property {string} store.currentLocale The preferred language locale key
    * @property {string} store.selectedAddress A hex string that matches the currently selected address in the app
    *
    */
   constructor (opts = {}) {
     const initState = extend({
-      frequentRpcListDetail: [],
+      frequentRpcList: [],
       currentAccountTab: 'history',
       accountTokens: {},
       assetImages: {},
       tokens: [],
       suggestedTokens: {},
       useBlockie: false,
-
-      // WARNING: Do not use feature flags for security-sensitive things.
-      // Feature flag toggling is available in the global namespace
-      // for convenient testing of pre-release features, and should never
-      // perform sensitive operations.
-      featureFlags: {
-        privacyMode: true,
-      },
-      knownMethodData: {},
-      participateInMetaMetrics: null,
-      firstTimeFlowType: null,
+      featureFlags: {},
       currentLocale: opts.initLangCode,
       identities: {},
       lostIdentities: {},
       seedWords: null,
       forgottenPassword: false,
       preferences: {
-        useNativeCurrencyAsPrimaryCurrency: true,
+        useETHAsPrimaryCurrency: true,
       },
-      completedOnboarding: false,
-      completedUiMigration: true,
-      metaMetricsId: null,
-      metaMetricsSendCount: 0,
     }, opts.initState)
 
     this.diagnostics = opts.diagnostics
     this.network = opts.network
     this.store = new ObservableStore(initState)
-    this.openPopup = opts.openPopup
+    this.showWatchAssetUi = opts.showWatchAssetUi
     this._subscribeProviderType()
-
-    global.setPreference = (key, value) => {
-      return this.setFeatureFlag(key, value)
-    }
   }
 // PUBLIC METHODS
 
@@ -98,52 +77,6 @@ class PreferencesController {
     this.store.updateState({ useBlockie: val })
   }
 
-  /**
-   * Setter for the `participateInMetaMetrics` property
-   *
-   * @param {boolean} bool Whether or not the user wants to participate in MetaMetrics
-   * @returns {string|null} the string of the new metametrics id, or null if not set
-   *
-   */
-  setParticipateInMetaMetrics (bool) {
-    this.store.updateState({ participateInMetaMetrics: bool })
-    let metaMetricsId = null
-    if (bool && !this.store.getState().metaMetricsId) {
-      metaMetricsId = bufferToHex(sha3(String(Date.now()) + String(Math.round(Math.random() * Number.MAX_SAFE_INTEGER))))
-      this.store.updateState({ metaMetricsId })
-    } else if (bool === false) {
-      this.store.updateState({ metaMetricsId })
-    }
-    return metaMetricsId
-  }
-
-  getMetaMetricsId () {
-    return this.store.getState().metaMetricsId
-  }
-
-  getParticipateInMetaMetrics () {
-    return this.store.getState().participateInMetaMetrics
-  }
-
-  setMetaMetricsSendCount (val) {
-    this.store.updateState({ metaMetricsSendCount: val })
-  }
-
-  getMetaMetricsSendCount () {
-    return this.store.getState().metaMetricsSendCount
-  }
-
-  /**
-   * Setter for the `firstTimeFlowType` property
-   *
-   * @param {String} type Indicates the type of first time flow - create or import - the user wishes to follow
-   *
-   */
-   setFirstTimeFlowType (type) {
-     this.store.updateState({ firstTimeFlowType: type })
-   }
-
-
   getSuggestedTokens () {
     return this.store.getState().suggestedTokens
   }
@@ -163,18 +96,6 @@ class PreferencesController {
   }
 
   /**
-   * Add new methodData to state, to avoid requesting this information again through Infura
-   *
-   * @param {string} fourBytePrefix Four-byte method signature
-   * @param {string} methodData Corresponding data method
-   */
-  addKnownMethodData (fourBytePrefix, methodData) {
-    const knownMethodData = this.store.getState().knownMethodData
-    knownMethodData[fourBytePrefix] = methodData
-    this.store.updateState({ knownMethodData })
-  }
-
-  /**
    * RPC engine middleware for requesting new asset added
    *
    * @param req
@@ -183,7 +104,7 @@ class PreferencesController {
    * @param {Function} - end
    */
   async requestWatchAsset (req, res, next, end) {
-    if (req.method === 'metamask_watchAsset' || req.method === 'wallet_watchAsset') {
+    if (req.method === 'metamask_watchAsset') {
       const { type, options } = req.params
       switch (type) {
         case 'ERC20':
@@ -339,7 +260,7 @@ class PreferencesController {
   }
 
   removeSuggestedTokens () {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.store.updateState({ suggestedTokens: {} })
       resolve({})
     })
@@ -391,13 +312,14 @@ class PreferencesController {
    * @returns {Promise<array>} Promises the new array of AddedToken objects.
    *
    */
-  async addToken (rawAddress, symbol, decimals, image) {
+  async addToken (rawAddress, symbol, decimals, image, network) {
     const address = normalizeAddress(rawAddress)
-    const newEntry = { address, symbol, decimals }
+    const newEntry = { address, symbol, decimals, network }
+
     const tokens = this.store.getState().tokens
     const assetImages = this.getAssetImages()
-    const previousEntry = tokens.find((token) => {
-      return token.address === address
+    const previousEntry = tokens.find((token, index) => {
+      return (token.address === address && parseInt(token.network) === parseInt(network))
     })
     const previousIndex = tokens.indexOf(previousEntry)
 
@@ -454,6 +376,22 @@ class PreferencesController {
   }
 
   /**
+   * Gets an updated rpc list from this.addToFrequentRpcList() and sets the `frequentRpcList` to this update list.
+   *
+   * @param {string} _url The the new rpc url to add to the updated list
+   * @param {bool} remove Remove selected url
+   * @returns {Promise<void>} Promise resolves with undefined
+   *
+   */
+  updateFrequentRpcList (_url, remove = false) {
+    return this.addToFrequentRpcList(_url, remove)
+      .then((rpcList) => {
+        this.store.updateState({ frequentRpcList: rpcList })
+        return Promise.resolve()
+      })
+  }
+
+  /**
    * Setter for the `currentAccountTab` property
    *
    * @param {string} currentAccountTab Specifies the new tab to be marked as current
@@ -461,90 +399,56 @@ class PreferencesController {
    *
    */
   setCurrentAccountTab (currentAccountTab) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.store.updateState({ currentAccountTab })
       resolve()
     })
   }
 
   /**
-   * updates custom RPC details
+   * Returns an updated rpcList based on the passed url and the current list.
+   * The returned list will have an unlimited length. The current list is modified and returned as a promise.
    *
-   * @param {string} url The RPC url to add to frequentRpcList.
-   * @param {number} chainId Optional chainId of the selected network.
-   * @param {string} ticker   Optional ticker symbol of the selected network.
-   * @param {string} nickname Optional nickname of the selected network.
-   * @returns {Promise<array>} Promise resolving to updated frequentRpcList.
-   *
-   */
-
-
-  updateRpc (newRpcDetails) {
-    const rpcList = this.getFrequentRpcListDetail()
-    const index = rpcList.findIndex((element) => { return element.rpcUrl === newRpcDetails.rpcUrl })
-    if (index > -1) {
-      const rpcDetail = rpcList[index]
-      const updatedRpc = extend(rpcDetail, newRpcDetails)
-      rpcList[index] = updatedRpc
-      this.store.updateState({ frequentRpcListDetail: rpcList })
-    } else {
-      const { rpcUrl, chainId, ticker, nickname, rpcPrefs = {} } = newRpcDetails
-      return this.addToFrequentRpcList(rpcUrl, chainId, ticker, nickname, rpcPrefs)
-    }
-    return Promise.resolve(rpcList)
-  }
-  /**
-   * Adds custom RPC url to state.
-   *
-   * @param {string} url The RPC url to add to frequentRpcList.
-   * @param {number} chainId Optional chainId of the selected network.
-   * @param {string} ticker   Optional ticker symbol of the selected network.
-   * @param {string} nickname Optional nickname of the selected network.
-   * @returns {Promise<array>} Promise resolving to updated frequentRpcList.
+   * @param {string} _url The rpc url to add to the frequentRpcList.
+   * @param {bool} remove Remove selected url
+   * @returns {Promise<array>} The updated frequentRpcList.
    *
    */
-    addToFrequentRpcList (url, chainId, ticker = 'ETH', nickname = '', rpcPrefs = {}) {
-      const rpcList = this.getFrequentRpcListDetail()
-      const index = rpcList.findIndex((element) => { return element.rpcUrl === url })
-      if (index !== -1) {
-        rpcList.splice(index, 1)
-      }
-      if (url !== 'http://localhost:8545') {
-        let checkedChainId
-        if (!!chainId && !Number.isNaN(parseInt(chainId))) {
-          checkedChainId = chainId
-        }
-        rpcList.push({ rpcUrl: url, chainId: checkedChainId, ticker, nickname, rpcPrefs })
-      }
-      this.store.updateState({ frequentRpcListDetail: rpcList })
-      return Promise.resolve(rpcList)
-    }
-
-  /**
-   * Removes custom RPC url from state.
-   *
-   * @param {string} url The RPC url to remove from frequentRpcList.
-   * @returns {Promise<array>} Promise resolving to updated frequentRpcList.
-   *
-   */
-  removeFromFrequentRpcList (url) {
-    const rpcList = this.getFrequentRpcListDetail()
-    const index = rpcList.findIndex((element) => { return element.rpcUrl === url })
+  addToFrequentRpcList (_url, remove = false) {
+    const rpcList = this.getFrequentRpcList()
+    const index = rpcList.findIndex((element) => { return element === _url })
     if (index !== -1) {
       rpcList.splice(index, 1)
     }
-    this.store.updateState({ frequentRpcListDetail: rpcList })
+    if (!remove && _url !== 'http://localhost:8545') {
+      rpcList.push(_url)
+    }
     return Promise.resolve(rpcList)
   }
 
   /**
-   * Getter for the `frequentRpcListDetail` property.
+   * Getter for the `frequentRpcList` property.
    *
-   * @returns {array<array>} An array of rpc urls.
+   * @returns {array<string>} An array of one or two rpc urls.
    *
    */
-  getFrequentRpcListDetail () {
-    return this.store.getState().frequentRpcListDetail
+  getFrequentRpcList () {
+    return this.store.getState().frequentRpcList
+  }
+
+  /**
+   * Removes a specified rpc url from the list.
+   *
+   * @param {string} url
+   * @returns {Promise<array>} The new array of updated RpcList objects
+   *
+   */
+  removeRpcUrl (_url) {
+    const rpcList = this.getFrequentRpcList()
+    const updatedRpcList = rpcList.filter(rpcUrl => rpcUrl !== _url)
+    this.store.updateState({ frequentRpcList: updatedRpcList })
+
+    return Promise.resolve(updatedRpcList)
   }
 
   /**
@@ -602,23 +506,6 @@ class PreferencesController {
    */
   getPreferences () {
     return this.store.getState().preferences
-  }
-
-  /**
-   * Sets the completedOnboarding state to true, indicating that the user has completed the
-   * onboarding process.
-   */
-  completeOnboarding () {
-    this.store.updateState({ completedOnboarding: true })
-    return Promise.resolve(true)
-  }
-
-  /**
-   * Sets the {@code completedUiMigration} state to {@code true}, indicating that the user has completed the UI switch.
-   */
-  completeUiMigration () {
-    this.store.updateState({ completedUiMigration: true })
-    return Promise.resolve(true)
   }
 
   //
@@ -693,7 +580,7 @@ class PreferencesController {
     }
     const tokenOpts = { rawAddress, decimals, symbol, image }
     this.addSuggestedERC20Asset(tokenOpts)
-    return this.openPopup().then(() => {
+    return this.showWatchAssetUi().then(() => {
       const tokenAddresses = this.getTokens().filter(token => token.address === normalizeAddress(rawAddress))
       return tokenAddresses.length > 0
     })
@@ -709,8 +596,8 @@ class PreferencesController {
    */
   _validateERC20AssetParams (opts) {
     const { rawAddress, symbol, decimals } = opts
-    if (!rawAddress || !symbol || typeof decimals === 'undefined') throw new Error(`Cannot suggest token without address, symbol, and decimals`)
-    if (!(symbol.length < 7)) throw new Error(`Invalid symbol ${symbol} more than six characters`)
+    if (!rawAddress || !symbol || !decimals) throw new Error(`Cannot suggest token without address, symbol, and decimals`)
+    if (!(symbol.length < 6)) throw new Error(`Invalid symbol ${symbol} more than five characters`)
     const numDecimals = parseInt(decimals, 10)
     if (isNaN(numDecimals) || numDecimals > 36 || numDecimals < 0) {
       throw new Error(`Invalid decimals ${decimals} must be at least 0, and not over 36`)

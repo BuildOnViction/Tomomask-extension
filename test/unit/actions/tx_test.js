@@ -4,7 +4,7 @@ var path = require('path')
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
-const actions = require(path.join(__dirname, '../../../ui/app/store/actions.js'))
+const actions = require(path.join(__dirname, '../../../ui/app/actions.js'))
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
@@ -33,8 +33,8 @@ describe('tx confirmation screen', function () {
   describe('cancelTx', function () {
     before(function (done) {
       actions._setBackgroundConnection({
-        approveTransaction (_, cb) { cb('An error!') },
-        cancelTransaction (_, cb) { cb() },
+        approveTransaction (txId, cb) { cb('An error!') },
+        cancelTransaction (txId, cb) { cb() },
         clearSeedWordCache (cb) { cb() },
         getState (cb) { cb() },
       })

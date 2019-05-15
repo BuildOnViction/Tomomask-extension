@@ -47,7 +47,7 @@ describe('# Network Controller', function () {
 
     describe('#setNetworkState', function () {
       it('should update the network', function () {
-        networkController.setNetworkState(1, 'rpc')
+        networkController.setNetworkState(1)
         const networkState = networkController.getNetworkState()
         assert.equal(networkState, 1, 'network is 1')
       })
@@ -81,6 +81,9 @@ describe('Network utils', () => {
         input: 42,
         expected: 'Kovan',
       }, {
+        input: 77,
+        expected: 'Sokol',
+      }, {
         input: 'ropsten',
         expected: 'Ropsten',
       }, {
@@ -90,11 +93,11 @@ describe('Network utils', () => {
         input: 'kovan',
         expected: 'Kovan',
       }, {
+        input: 'sokol',
+        expected: 'Sokol',
+      }, {
         input: 'mainnet',
         expected: 'Main Ethereum Network',
-      }, {
-        input: 'goerli',
-        expected: 'Goerli',
       },
     ]
 

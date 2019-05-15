@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "Privacy-modus"
-  },
-  "privacyModeDescription": {
-    "message": "Websites moeten toegang vragen om uw accountgegevens te bekijken."
-  },
-  "exposeAccounts": {
-    "message": "Expose Accounts"
-  },
-  "exposeDescription": {
-    "message": "Stel accounts vrij op de huidige website. Handig voor legacy dapps."
-  },
-  "confirmExpose": {
-    "message": "Weet u zeker dat u uw accounts wilt weergeven aan de huidige website?"
-  },
-  "confirmClear": {
-    "message": "Weet je zeker dat je goedgekeurde websites wilt wissen?"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "Goedgekeurde websitegegevens zijn met succes gewist."
-  },
-  "approvalData": {
-    "message": "Goedkeuringsgegevens"
-  },
-  "approvalDataDescription": {
-    "message": "Goedgekeurde websitegegevens wissen zodat alle sites opnieuw goedkeuring moeten aanvragen."
-  },
-  "clearApprovalData": {
-    "message": "Gegevens over goedkeuring wissen"
-  },
-  "approve": {
-    "message": "Goedkeuren"
-  },
-  "reject": {
-    "message": "Afwijzen"
-  },
-  "providerAPIRequest": {
-    "message": "Web3 API-aanvraag"
-  },
-  "reviewProviderRequest": {
-    "message": "Bekijk deze Ethereum API-aanvraag."
-  },
-  "providerRequestInfo": {
-    "message": "Het onderstaande domein probeert toegang tot de Ethereum API te vragen zodat deze kan communiceren met de Ethereum-blockchain. Controleer altijd eerst of u op de juiste site bent voordat u Ethereum-toegang goedkeurt."
-  },
   "accept": {
     "message": "Aanvaarden"
   },
@@ -79,7 +34,7 @@
     "description": "De beschrijving van de applicatie"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "TomoMask",
     "description": "De naam van de applicatie"
   },
   "attemptingConnect": {
@@ -117,7 +72,7 @@
     "message": "Lenen met Dharma (Beta)"
   },
   "builtInCalifornia": {
-    "message": "MetaMask is ontworpen en gebouwd in Californië."
+    "message": "TomoMask is ontworpen en gebouwd in Californië."
   },
   "buy": {
     "message": "Kopen"
@@ -127,12 +82,6 @@
   },
   "buyCoinbaseExplainer": {
     "message": "Coinbase is 's werelds populairste manier om Bitcoin, Ethereum en Litecoin te kopen en verkopen."
-  },
-  "buyCoinSwitch": {
-    "message": "Koop op CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch is de one-stop-bestemming om meer dan 300 cryptocurrencies tegen de beste prijs in te wisselen."
   },
   "cancel": {
     "message": "Annuleer"
@@ -160,9 +109,6 @@
   },
   "continueToCoinbase": {
     "message": "Ga verder naar Coinbase"
-  },
-  "continueToCoinSwitch": {
-    "message": "Ga verder naar CoinSwitch"
   },
   "contractDeployment": {
     "message": "Contractimplementatie"
@@ -232,7 +178,7 @@
     "message": "Het standaardnetwerk voor Ether-transacties is Main Net."
   },
   "denExplainer": {
-    "message": "Uw DEN is uw wachtwoord-gecodeerde opslag binnen MetaMask."
+    "message": "Uw DEN is uw wachtwoord-gecodeerde opslag binnen TomoMask."
   },
   "deposit": {
     "message": "Storting"
@@ -260,7 +206,7 @@
     "message": "Stort met ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Als u andere cryptocurrencies bezit, kunt u Ether direct in uw MetaMask-portemonnee ruilen en storten. Geen account nodig."
+    "message": "Als u andere cryptocurrencies bezit, kunt u Ether direct in uw TomoMask-portemonnee ruilen en storten. Geen account nodig."
   },
   "details": {
     "message": "Details"
@@ -405,7 +351,7 @@
     "message": "Account importeren"
   },
   "importAccountMsg": {
-    "message": " Geïmporteerde accounts worden niet gekoppeld aan de seedphrase van uw oorspronkelijk gemaakte MetaMask-account. Meer informatie over geïmporteerde accounts"
+    "message": " Geïmporteerde accounts worden niet gekoppeld aan de seedphrase van uw oorspronkelijk gemaakte TomoMask-account. Meer informatie over geïmporteerde accounts"
   },
   "importAnAccount": {
     "message": "Importeer een account"
@@ -489,13 +435,13 @@
     "message": "back-up woorden hebben alleen kleine letters"
   },
   "mainnet": {
-    "message": "Main Netwerk"
+    "message": "belangrijkste Ethereum-netwerk"
   },
   "message": {
     "message": "Bericht"
   },
   "metamaskDescription": {
-    "message": "MetaMask is een veilige identiteitskluis voor Ethereum."
+    "message": "TomoMask is een veilige identiteitskluis voor Ethereum."
   },
   "min": {
     "message": "Minimum"
@@ -507,7 +453,7 @@
     "message": "Moet ten minste één token selecteren."
   },
   "needEtherInWallet": {
-    "message": "Om te communiceren met gedecentraliseerde applicaties met MetaMask, heb je Ether nodig in je portemonnee."
+    "message": "Om te communiceren met gedecentraliseerde applicaties met TomoMask, heb je Ether nodig in je portemonnee."
   },
   "needImportFile": {
     "message": "U moet een bestand selecteren om te importeren.",
@@ -655,6 +601,9 @@
   "rinkeby": {
     "message": "Rinkeby testnetwerk"
   },
+  "poa": {
+    "message": "[Not translated]"
+  },
   "ropsten": {
     "message": "Ropsten testnetwerk"
   },
@@ -750,8 +699,8 @@
   "supportCenter": {
     "message": "Bezoek ons ​​ondersteuningscentrum"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "Het symbool moet tussen 0 en 12 tekens lang zijn."
+  "symbolBetweenZeroTen": {
+    "message": "Het symbool moet tussen 0 en 10 tekens lang zijn."
   },
   "takesTooLong": {
     "message": "Duurt te lang?"
@@ -785,7 +734,7 @@
     "message": "Token Symbol"
   },
   "tokenWarning1": {
-    "message": "Houd de tokens bij die je hebt gekocht met je MetaMask-account. Als je tokens met een ander account hebt gekocht, worden die tokens hier niet weergegeven."
+    "message": "Houd de tokens bij die je hebt gekocht met je TomoMask-account. Als je tokens met een ander account hebt gekocht, worden die tokens hier niet weergegeven."
   },
   "total": {
     "message": "Totaal"
@@ -807,7 +756,7 @@
     "description": "Gevolgd door een link (hier) om tegensaldi te bekijken"
   },
   "twelveWords": {
-    "message": "Deze 12 woorden zijn de enige manier om uw MetaMask-accounts te herstellen.\nBewaar ze ergens veilig en geheim."
+    "message": "Deze 12 woorden zijn de enige manier om uw TomoMask-accounts te herstellen.\nBewaar ze ergens veilig en geheim."
   },
   "typePassword": {
     "message": "Typ uw wachtwoord"
@@ -816,7 +765,7 @@
     "message": "Welkom bij de nieuwe gebruikersinterface (bèta)"
   },
   "uiWelcomeMessage": {
-    "message": "U gebruikt nu de nieuwe gebruikersinterface van MetaMask. Kijk rond, probeer nieuwe functies uit zoals het verzenden van tokens en laat ons weten of u problemen ondervindt."
+    "message": "U gebruikt nu de nieuwe gebruikersinterface van TomoMask. Kijk rond, probeer nieuwe functies uit zoals het verzenden van tokens en laat ons weten of u problemen ondervindt."
   },
   "unavailable": {
     "message": "Niet beschikbaar"
@@ -858,8 +807,8 @@
   "warning": {
     "message": "Waarschuwing"
   },
-  "welcome": {
-    "message": "Welkom bij MetaMask"
+  "welcomeBeta": {
+    "message": "Welkom bij TomoMask Beta"
   },
   "whatsThis": {
     "message": "Wat is dit?"

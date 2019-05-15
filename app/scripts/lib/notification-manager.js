@@ -1,6 +1,7 @@
 const extension = require('extensionizer')
-const NOTIFICATION_HEIGHT = 620
-const NOTIFICATION_WIDTH = 360
+const height = 620
+const width = 360
+
 
 class NotificationManager {
 
@@ -25,18 +26,16 @@ class NotificationManager {
         // bring focus to existing chrome popup
         extension.windows.update(popup.id, { focused: true })
       } else {
-        const {screenX, screenY, outerWidth, outerHeight} = window
-        const notificationTop = Math.round(screenY + (outerHeight / 2) - (NOTIFICATION_HEIGHT / 2))
-        const notificationLeft = Math.round(screenX + (outerWidth / 2) - (NOTIFICATION_WIDTH / 2))
-        const cb = (currentPopup) => { this._popupId = currentPopup.id }
+        const cb = (currentPopup) => {
+          this._popupId = currentPopup.id
+          extension.windows.update(currentPopup.id, { focused: true })
+        }
         // create new notification popup
         const creation = extension.windows.create({
           url: 'notification.html',
           type: 'popup',
-          width: NOTIFICATION_WIDTH,
-          height: NOTIFICATION_HEIGHT,
-          top: Math.max(notificationTop, 0),
-          left: Math.max(notificationLeft, 0),
+          width,
+          height,
         }, cb)
         creation && creation.then && creation.then(cb)
       }

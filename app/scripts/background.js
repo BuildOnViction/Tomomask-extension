@@ -23,13 +23,13 @@ const createStreamSink = require('./lib/createStreamSink')
 const NotificationManager = require('./lib/notification-manager.js')
 const MetamaskController = require('./metamask-controller')
 const rawFirstTimeState = require('./first-time-state')
-const setupSentry = require('./lib/setupSentry')
+const setupRaven = require('./lib/setupRaven')
 const reportFailedTxToSentry = require('./lib/reportFailedTxToSentry')
 const setupMetamaskMeshMetrics = require('./lib/setupMetamaskMeshMetrics')
 const EdgeEncryptor = require('./edge-encryptor')
 const getFirstPreferredLangCode = require('./lib/get-first-preferred-lang-code')
 const getObjStructure = require('./lib/getObjStructure')
-const setupEnsIpfsResolver = require('./lib/ens-ipfs/setup')
+const ipfsContent = require('./lib/ipfsContent.js')
 
 const {
   ENVIRONMENT_TYPE_POPUP,
@@ -43,7 +43,7 @@ const firstTimeState = Object.assign({}, rawFirstTimeState, global.METAMASK_TEST
 const STORAGE_KEY = 'metamask-config'
 const METAMASK_DEBUG = process.env.METAMASK_DEBUG
 
-log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn')
+log.setDefaultLevel(METAMASK_DEBUG ? 'debug' : 'warn')
 
 const platform = new ExtensionPlatform()
 const notificationManager = new NotificationManager()
@@ -51,7 +51,7 @@ global.METAMASK_NOTIFIER = notificationManager
 
 // setup sentry error reporting
 const release = platform.getVersion()
-const sentry = setupSentry({ release })
+const raven = setupRaven({ release })
 
 // browser check if it is Edge - https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
 // Internet Explorer 6-11
@@ -59,6 +59,7 @@ const isIE = !!document.documentMode
 // Edge 20+
 const isEdge = !isIE && !!window.StyleMedia
 
+let ipfsHandle
 let popupIsOpen = false
 let notificationIsOpen = false
 const openMetamaskTabsIDs = {}
@@ -102,10 +103,12 @@ setupMetamaskMeshMetrics()
  * @property {boolean} isInitialized - Whether the first vault has been created.
  * @property {boolean} isUnlocked - Whether the vault is currently decrypted and accounts are available for selection.
  * @property {boolean} isAccountMenuOpen - Represents whether the main account selection UI is currently displayed.
+ * @property {boolean} isMascara - True if the current context is the extensionless MetaMascara project.
  * @property {boolean} isPopup - Returns true if the current view is an externally-triggered notification.
  * @property {string} rpcTarget - DEPRECATED - The URL of the current RPC provider.
  * @property {Object} identities - An object matching lower-case hex addresses to Identity objects with "address" and "name" (nickname) keys.
  * @property {Object} unapprovedTxs - An object mapping transaction hashes to unapproved transactions.
+ * @property {boolean} noActiveNotices - False if there are notices the user should confirm before using the application.
  * @property {Array} frequentRpcList - A list of frequently used RPCs, including custom user-provided ones.
  * @property {Array} addressBook - A list of previously sent to addresses.
  * @property {address} selectedTokenAddress - Used to indicate if a token is globally selected. Should be deprecated in favor of UI-centric token selection.
@@ -161,7 +164,8 @@ async function initialize () {
   const initState = await loadStateFromPersistence()
   const initLangCode = await getFirstPreferredLangCode()
   await setupController(initState, initLangCode)
-  log.debug('MetaMask initialization complete.')
+  log.debug('Nifty Wallet initialization complete.')
+  ipfsHandle = ipfsContent(initState.NetworkController.provider)
 }
 
 //
@@ -194,14 +198,14 @@ async function loadStateFromPersistence () {
       // we were able to recover (though it might be old)
       versionedData = diskStoreState
       const vaultStructure = getObjStructure(versionedData)
-      sentry.captureMessage('MetaMask - Empty vault found - recovered from diskStore', {
+      raven.captureMessage('Nifty Wallet - Empty vault found - recovered from diskStore', {
         // "extra" key is required by Sentry
         extra: { vaultStructure },
       })
     } else {
       // unable to recover, clear state
       versionedData = migrator.generateInitialState(firstTimeState)
-      sentry.captureMessage('MetaMask - Empty vault found - unable to recover')
+      raven.captureMessage('Nifty Wallet - Empty vault found - unable to recover')
     }
   }
 
@@ -209,7 +213,7 @@ async function loadStateFromPersistence () {
   migrator.on('error', (err) => {
     // get vault structure without secrets
     const vaultStructure = getObjStructure(versionedData)
-    sentry.captureException(err, {
+    raven.captureException(err, {
       // "extra" key is required by Sentry
       extra: { vaultStructure },
     })
@@ -218,7 +222,7 @@ async function loadStateFromPersistence () {
   // migrate data
   versionedData = await migrator.migrateData(versionedData)
   if (!versionedData) {
-    throw new Error('MetaMask - migrator returned undefined')
+    throw new Error('Nifty Wallet - migrator returned undefined')
   }
 
   // write to disk
@@ -227,7 +231,7 @@ async function loadStateFromPersistence () {
   } else {
     // throw in setTimeout so as to not block boot
     setTimeout(() => {
-      throw new Error('MetaMask - Localstore not supported')
+      throw new Error('Nifty Wallet - Localstore not supported')
     })
   }
 
@@ -255,8 +259,7 @@ function setupController (initState, initLangCode) {
     showUnconfirmedMessage: triggerUi,
     unlockAccountMessage: triggerUi,
     showUnapprovedTx: triggerUi,
-    openPopup: openPopup,
-    closePopup: notificationManager.closePopup.bind(notificationManager),
+    showWatchAssetUi: showWatchAssetUi,
     // initial state
     initState,
     // initial locale code
@@ -265,16 +268,19 @@ function setupController (initState, initLangCode) {
     platform,
     encryptor: isEdge ? new EdgeEncryptor() : undefined,
   })
+  global.metamaskController = controller
 
-  const provider = controller.provider
-  setupEnsIpfsResolver({ provider })
+  controller.networkController.on('networkDidChange', () => {
+    ipfsHandle && ipfsHandle.remove()
+    ipfsHandle = ipfsContent(controller.networkController.providerStore.getState())
+  })
 
   // report failed transactions to Sentry
   controller.txController.on(`tx:status-update`, (txId, status) => {
     if (status !== 'failed') return
     const txMeta = controller.txController.txStateManager.getTx(txId)
     try {
-      reportFailedTxToSentry({ sentry, txMeta })
+      reportFailedTxToSentry({ raven, txMeta })
     } catch (e) {
       console.error(e)
     }
@@ -287,7 +293,7 @@ function setupController (initState, initLangCode) {
     storeTransform(versionifyData),
     createStreamSink(persistData),
     (error) => {
-      log.error('MetaMask - Persistence pipeline failed', error)
+      log.error('Nifty Wallet - Persistence pipeline failed', error)
     }
   )
 
@@ -303,10 +309,10 @@ function setupController (initState, initLangCode) {
 
   async function persistData (state) {
     if (!state) {
-      throw new Error('MetaMask - updated state is missing', state)
+      throw new Error('Nifty Wallet - updated state is missing')
     }
     if (!state.data) {
-      throw new Error('MetaMask - updated state does not have data', state)
+      throw new Error('Nifty Wallet - updated state does not have data')
     }
     if (localStore.isSupported) {
       try {
@@ -330,10 +336,6 @@ function setupController (initState, initLangCode) {
     [ENVIRONMENT_TYPE_FULLSCREEN]: true,
   }
 
-  const metamaskBlacklistedPorts = [
-    'trezor-connect',
-  ]
-
   const isClientOpenStatus = () => {
     return popupIsOpen || Boolean(Object.keys(openMetamaskTabsIDs).length) || notificationIsOpen
   }
@@ -353,10 +355,6 @@ function setupController (initState, initLangCode) {
   function connectRemote (remotePort) {
     const processName = remotePort.name
     const isMetaMaskInternalProcess = metamaskInternalProcessHash[processName]
-
-    if (metamaskBlacklistedPorts.includes(remotePort.name)) {
-      return false
-    }
 
     if (isMetaMaskInternalProcess) {
       const portStream = new PortStream(remotePort)
@@ -412,20 +410,18 @@ function setupController (initState, initLangCode) {
   controller.messageManager.on('updateBadge', updateBadge)
   controller.personalMessageManager.on('updateBadge', updateBadge)
   controller.typedMessageManager.on('updateBadge', updateBadge)
-  controller.providerApprovalController.store.on('update', updateBadge)
 
   /**
    * Updates the Web Extension's "badge" number, on the little fox in the toolbar.
    * The number reflects the current number of pending transactions or message signatures needing user approval.
    */
   function updateBadge () {
-    let label = ''
-    const unapprovedTxCount = controller.txController.getUnapprovedTxCount()
-    const unapprovedMsgCount = controller.messageManager.unapprovedMsgCount
-    const unapprovedPersonalMsgs = controller.personalMessageManager.unapprovedPersonalMsgCount
-    const unapprovedTypedMsgs = controller.typedMessageManager.unapprovedTypedMessagesCount
-    const pendingProviderRequests = controller.providerApprovalController.store.getState().providerRequests.length
-    const count = unapprovedTxCount + unapprovedMsgCount + unapprovedPersonalMsgs + unapprovedTypedMsgs + pendingProviderRequests
+    var label = ''
+    var unapprovedTxCount = controller.txController.getUnapprovedTxCount()
+    var unapprovedMsgCount = controller.messageManager.unapprovedMsgCount
+    var unapprovedPersonalMsgs = controller.personalMessageManager.unapprovedPersonalMsgCount
+    var unapprovedTypedMsgs = controller.typedMessageManager.unapprovedTypedMessagesCount
+    var count = unapprovedTxCount + unapprovedMsgCount + unapprovedPersonalMsgs + unapprovedTypedMsgs
     if (count) {
       label = String(count)
     }
@@ -446,9 +442,14 @@ function setupController (initState, initLangCode) {
 function triggerUi () {
   extension.tabs.query({ active: true }, tabs => {
     const currentlyActiveMetamaskTab = Boolean(tabs.find(tab => openMetamaskTabsIDs[tab.id]))
-    if (!popupIsOpen && !currentlyActiveMetamaskTab && !notificationIsOpen) {
+    /**
+     * https://github.com/poanetwork/metamask-extension/issues/19
+     * !notificationIsOpen was removed from the check, because notification can be opened, but it can be behind the DApp
+     * for some reasons. For example, if notification popup was opened, but user moved focus to DApp.
+     * New transaction, in this case, will not appear in front of DApp.
+     */
+    if (!popupIsOpen && !currentlyActiveMetamaskTab) {
       notificationManager.showPopup()
-      notificationIsOpen = true
     }
   })
 }
@@ -457,11 +458,11 @@ function triggerUi () {
  * Opens the browser popup for user confirmation of watchAsset
  * then it waits until user interact with the UI
  */
-function openPopup () {
+function showWatchAssetUi () {
   triggerUi()
   return new Promise(
     (resolve) => {
-      const interval = setInterval(() => {
+      var interval = setInterval(() => {
         if (!notificationIsOpen) {
           clearInterval(interval)
           resolve()
@@ -470,10 +471,3 @@ function openPopup () {
     }
   )
 }
-
-// On first install, open a new tab with MetaMask
-extension.runtime.onInstalled.addListener(({reason}) => {
-  if ((reason === 'install') && (!METAMASK_DEBUG)) {
-    platform.openExtensionInBrowser()
-  }
-})

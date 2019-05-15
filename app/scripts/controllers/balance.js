@@ -68,7 +68,7 @@ class BalanceController {
   _registerUpdates () {
     const update = this.updateBalance.bind(this)
 
-    this.txController.on('tx:status-update', (_, status) => {
+    this.txController.on('tx:status-update', (txId, status) => {
       switch (status) {
         case 'submitted':
         case 'confirmed':

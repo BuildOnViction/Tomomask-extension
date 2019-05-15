@@ -3,15 +3,6 @@ const extend = require('xtend')
 const EthQuery = require('eth-query')
 const log = require('loglevel')
 const pify = require('pify')
-const {
-  ROPSTEN,
-  RINKEBY,
-  KOVAN,
-  MAINNET,
-  GOERLI,
-} = require('./network/enums')
-const INFURA_PROVIDER_TYPES = [ROPSTEN, RINKEBY, KOVAN, MAINNET, GOERLI]
-
 
 class RecentBlocksController {
 
@@ -33,7 +24,7 @@ class RecentBlocksController {
    *
    */
   constructor (opts = {}) {
-    const { blockTracker, provider, networkController } = opts
+    const { blockTracker, provider } = opts
     this.blockTracker = blockTracker
     this.ethQuery = new EthQuery(provider)
     this.historyLength = opts.historyLength || 40
@@ -42,29 +33,12 @@ class RecentBlocksController {
       recentBlocks: [],
     }, opts.initState)
     this.store = new ObservableStore(initState)
-    const blockListner = async (newBlockNumberHex) => {
+
+    this.blockTracker.on('latest', async (newBlockNumberHex) => {
       try {
         await this.processBlock(newBlockNumberHex)
       } catch (err) {
         log.error(err)
-      }
-    }
-    let isListening = false
-    const { type } = networkController.getProviderConfig()
-    if (!INFURA_PROVIDER_TYPES.includes(type) && type !== 'loading') {
-      this.blockTracker.on('latest', blockListner)
-      isListening = true
-    }
-    networkController.on('networkDidChange', (newType) => {
-      if (INFURA_PROVIDER_TYPES.includes(newType) && isListening) {
-        this.blockTracker.removeListener('latest', blockListner)
-      } else if (
-        !INFURA_PROVIDER_TYPES.includes(type) &&
-        type !== 'loading' &&
-        !isListening
-      ) {
-        this.blockTracker.on('latest', blockListner)
-
       }
     })
     this.backfill()

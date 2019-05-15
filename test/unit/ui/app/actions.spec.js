@@ -10,13 +10,13 @@ const configureStore = require('redux-mock-store').default
 const thunk = require('redux-thunk').default
 const EthQuery = require('eth-query')
 const Eth = require('ethjs')
-const KeyringController = require('eth-keyring-controller')
+const KeyringController = require('eth-keychain-controller')
 
 const { createTestProviderTools } = require('../../../stub/provider')
 const provider = createTestProviderTools({ scaffold: {}}).provider
 
 const enLocale = require('../../../../app/_locales/en/messages.json')
-const actions = require('../../../../ui/app/store/actions')
+const actions = require('../../../../ui/app/actions')
 const MetaMaskController = require('../../../../app/scripts/metamask-controller')
 
 const firstTimeState = require('../../../unit/localhostState')
@@ -44,7 +44,7 @@ describe('Actions', () => {
       showUnapprovedTx: noop,
       showUnconfirmedMessage: noop,
       encryptor: {
-        encrypt: function (_, object) {
+        encrypt: function (password, object) {
           this.object = object
           return Promise.resolve('mock-encrypted')
         },
@@ -103,7 +103,7 @@ describe('Actions', () => {
 
       submitPasswordSpy = sinon.stub(background, 'submitPassword')
 
-      submitPasswordSpy.callsFake((_, callback) => {
+      submitPasswordSpy.callsFake((password, callback) => {
         callback(new Error('error in submitPassword'))
       })
 
@@ -198,7 +198,7 @@ describe('Actions', () => {
       createNewVaultAndRestoreSpy = sinon.spy(background, 'createNewVaultAndRestore')
       clearSeedWordCacheSpy = sinon.spy(background, 'clearSeedWordCache')
       return store.dispatch(actions.createNewVaultAndRestore())
-        .catch(() => {
+        .then(() => {
           assert(clearSeedWordCacheSpy.calledOnce)
           assert(createNewVaultAndRestoreSpy.calledOnce)
         })
@@ -218,7 +218,7 @@ describe('Actions', () => {
       })
 
       return store.dispatch(actions.createNewVaultAndRestore())
-        .catch(() => {
+        .then(() => {
           assert.deepEqual(store.getActions(), expectedActions)
         })
     })
@@ -235,12 +235,12 @@ describe('Actions', () => {
 
       createNewVaultAndRestoreSpy = sinon.stub(background, 'createNewVaultAndRestore')
 
-      createNewVaultAndRestoreSpy.callsFake((_, __, callback) => {
+      createNewVaultAndRestoreSpy.callsFake((password, seed, callback) => {
         callback(new Error('error'))
       })
 
       return store.dispatch(actions.createNewVaultAndRestore())
-        .catch(() => {
+        .then(() => {
           assert.deepEqual(store.getActions(), expectedActions)
         })
     })
@@ -279,7 +279,7 @@ describe('Actions', () => {
       ]
 
       createNewVaultAndKeychainSpy = sinon.stub(background, 'createNewVaultAndKeychain')
-      createNewVaultAndKeychainSpy.callsFake((_, callback) => {
+      createNewVaultAndKeychainSpy.callsFake((password, callback) => {
         callback(new Error('error'))
       })
 
@@ -342,13 +342,14 @@ describe('Actions', () => {
       ]
 
       submitPasswordSpy = sinon.stub(background, 'submitPassword')
-      submitPasswordSpy.callsFake((_, callback) => {
+      submitPasswordSpy.callsFake((password, callback) => {
         callback(new Error('error'))
       })
 
       return store.dispatch(actions.requestRevealSeed())
         .catch(() => {
-          assert.deepEqual(store.getActions(), expectedActions)
+          assert.deepEqual(store.getActions()[0], expectedActions[0])
+          assert.deepEqual(store.getActions()[2], expectedActions[1])
         })
     })
   })
@@ -414,7 +415,7 @@ describe('Actions', () => {
 
     it('displays warning error message when submitPassword in background errors', () => {
       submitPasswordSpy = sinon.stub(background, 'submitPassword')
-      submitPasswordSpy.callsFake((_, callback) => {
+      submitPasswordSpy.callsFake((password, callback) => {
         callback(new Error('error'))
       })
 
@@ -427,7 +428,8 @@ describe('Actions', () => {
 
       return store.dispatch(actions.requestRevealSeed())
         .catch(() => {
-          assert.deepEqual(store.getActions(), expectedActions)
+          assert.deepEqual(store.getActions()[0], expectedActions[0])
+          assert.deepEqual(store.getActions()[2], expectedActions[1])
         })
     })
 
@@ -446,7 +448,8 @@ describe('Actions', () => {
 
       return store.dispatch(actions.requestRevealSeed())
         .catch(() => {
-          assert.deepEqual(store.getActions(), expectedActions)
+          assert.deepEqual(store.getActions()[0], expectedActions[0])
+          assert.deepEqual(store.getActions()[2], expectedActions[1])
         })
     })
   })
@@ -468,7 +471,7 @@ describe('Actions', () => {
 
       removeAccountSpy = sinon.spy(background, 'removeAccount')
 
-      return store.dispatch(actions.removeAccount('0xe18035bf8712672935fdb4e5e431b1a0183d2dfc'))
+      return store.dispatch(actions.removeAccount('0xe18035bf8712672935fdb4e5e431b1a0183d2dfc', '1'))
         .then(() => {
           assert(removeAccountSpy.calledOnce)
           assert.deepEqual(store.getActions(), expectedActions)
@@ -483,11 +486,11 @@ describe('Actions', () => {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
       removeAccountSpy = sinon.stub(background, 'removeAccount')
-      removeAccountSpy.callsFake((_, callback) => {
+      removeAccountSpy.callsFake((address, network, callback) => {
         callback(new Error('error'))
       })
 
-      return store.dispatch(actions.removeAccount('0xe18035bf8712672935fdb4e5e431b1a0183d2dfc'))
+      return store.dispatch(actions.removeAccount('0xe18035bf8712672935fdb4e5e431b1a0183d2dfc', '1'))
         .catch(() => {
           assert.deepEqual(store.getActions(), expectedActions)
         })
@@ -522,7 +525,7 @@ describe('Actions', () => {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 
-      addNewKeyringSpy.callsFake((_, __, callback) => {
+      addNewKeyringSpy.callsFake((type, opts, callback) => {
         callback(new Error('error'))
       })
 
@@ -611,7 +614,7 @@ describe('Actions', () => {
       ]
 
       importAccountWithStrategySpy = sinon.stub(background, 'importAccountWithStrategy')
-      importAccountWithStrategySpy.callsFake((_, __, callback) => {
+      importAccountWithStrategySpy.callsFake((strategy, args, callback) => {
         callback(new Error('error'))
       })
 
@@ -668,7 +671,7 @@ describe('Actions', () => {
         { type: 'HIDE_LOADING_INDICATION' },
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
-      setCurrentCurrencySpy.callsFake((_, callback) => {
+      setCurrentCurrencySpy.callsFake((currencyCode, callback) => {
         callback(new Error('error'))
       })
 
@@ -677,7 +680,7 @@ describe('Actions', () => {
     })
   })
 
-  describe('#signMsg', () => {
+  /* describe('#signMsg', () => {
 
     let signMessageSpy, metamaskMsgs, msgId, messages
 
@@ -720,7 +723,7 @@ describe('Actions', () => {
       ]
 
       signMessageSpy = sinon.stub(background, 'signMessage')
-      signMessageSpy.callsFake((_, callback) => {
+      signMessageSpy.callsFake((msgData, callback) => {
         callback(new Error('error'))
       })
 
@@ -775,7 +778,7 @@ describe('Actions', () => {
       ]
 
       signPersonalMessageSpy = sinon.stub(background, 'signPersonalMessage')
-      signPersonalMessageSpy.callsFake((_, callback) => {
+      signPersonalMessageSpy.callsFake((msgData, callback) => {
         callback(new Error('error'))
       })
 
@@ -785,7 +788,7 @@ describe('Actions', () => {
         })
     })
 
-  })
+  })*/
 
   describe('#signTx', () => {
 
@@ -810,13 +813,19 @@ describe('Actions', () => {
       const store = mockStore()
       const expectedActions = [
         { type: 'DISPLAY_WARNING', value: 'error' },
-        { type: 'SHOW_CONF_TX_PAGE', transForward: true, id: undefined },
+        {
+          type: 'SHOW_CONF_TX_PAGE',
+          transForward: true,
+          id: undefined,
+          value: {isContractExecutionByUser: undefined},
+        },
       ]
-      sendTransactionSpy.callsFake((_, callback) => {
+      sendTransactionSpy.callsFake((txData, callback) => {
         callback(new Error('error'))
       })
 
       store.dispatch(actions.signTx())
+      console.log(store.getActions())
       assert.deepEqual(store.getActions(), expectedActions)
     })
   })
@@ -906,7 +915,7 @@ describe('Actions', () => {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 
-      setSelectedAddressSpy.callsFake((_, callback) => {
+      setSelectedAddressSpy.callsFake((address, callback) => {
         callback(new Error('error'))
       })
 
@@ -941,7 +950,7 @@ describe('Actions', () => {
         { type: 'HIDE_LOADING_INDICATION' },
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
-      setSelectedAddressSpy.callsFake((_, callback) => {
+      setSelectedAddressSpy.callsFake((address, callback) => {
         callback(new Error('error'))
       })
 
@@ -975,12 +984,9 @@ describe('Actions', () => {
       const store = mockStore()
       const expectedActions = [
         { type: 'SHOW_LOADING_INDICATION', value: undefined },
-        { type: 'HIDE_LOADING_INDICATION' },
-        { type: 'DISPLAY_WARNING', value: 'error' },
-        { type: 'UPDATE_TOKENS', newTokens: undefined },
       ]
 
-      addTokenSpy.callsFake((_, __, ___, ____, callback) => {
+      addTokenSpy.callsFake((address, symbol, decimals, image, callback) => {
         callback(new Error('error'))
       })
 
@@ -1020,7 +1026,7 @@ describe('Actions', () => {
         { type: 'UPDATE_TOKENS', newTokens: undefined },
       ]
 
-      removeTokenSpy.callsFake((_, callback) => {
+      removeTokenSpy.callsFake((address, callback) => {
         callback(new Error('error'))
       })
 
@@ -1031,12 +1037,56 @@ describe('Actions', () => {
     })
   })
 
-  describe('#setProviderType', () => {
-    let setProviderTypeSpy
-    let store
+  describe('#markNoticeRead', () => {
+    let markNoticeReadSpy
+    const notice = {
+      id: 0,
+      read: false,
+      date: 'test date',
+      title: 'test title',
+      body: 'test body',
+    }
 
     beforeEach(() => {
-      store = mockStore({ metamask: { provider: {} } })
+      markNoticeReadSpy = sinon.stub(background, 'markNoticeRead')
+    })
+
+    afterEach(() => {
+      markNoticeReadSpy.restore()
+    })
+
+    it('calls markNoticeRead in background', () => {
+      const store = mockStore()
+
+      store.dispatch(actions.markNoticeRead(notice))
+      .then(() => {
+        assert(markNoticeReadSpy.calledOnce)
+      })
+
+    })
+
+    it('errors when markNoticeRead in background throws', () => {
+      const store = mockStore()
+      const expectedActions = [
+        { type: 'SHOW_LOADING_INDICATION', value: undefined },
+        { type: 'HIDE_LOADING_INDICATION' },
+        { type: 'DISPLAY_WARNING', value: 'error' },
+      ]
+      markNoticeReadSpy.callsFake((notice, callback) => {
+        callback(new Error('error'))
+      })
+
+      store.dispatch(actions.markNoticeRead())
+        .catch(() => {
+          assert.deepEqual(store.getActions(), expectedActions)
+        })
+    })
+  })
+
+  describe('#setProviderType', () => {
+    let setProviderTypeSpy
+
+    beforeEach(() => {
       setProviderTypeSpy = sinon.stub(background, 'setProviderType')
     })
 
@@ -1045,16 +1095,18 @@ describe('Actions', () => {
     })
 
     it('', () => {
+      const store = mockStore()
       store.dispatch(actions.setProviderType())
       assert(setProviderTypeSpy.calledOnce)
     })
 
     it('', () => {
+      const store = mockStore()
       const expectedActions = [
         { type: 'DISPLAY_WARNING', value: 'Had a problem changing networks!' },
       ]
 
-      setProviderTypeSpy.callsFake((_, callback) => {
+      setProviderTypeSpy.callsFake((type, callback) => {
         callback(new Error('error'))
       })
 
@@ -1087,7 +1139,7 @@ describe('Actions', () => {
         { type: 'DISPLAY_WARNING', value: 'Had a problem changing networks!' },
       ]
 
-      setRpcTargetSpy.callsFake((_, __, ___, ____, callback) => {
+      setRpcTargetSpy.callsFake((newRpc, callback) => {
         callback(new Error('error'))
       })
 
@@ -1134,7 +1186,7 @@ describe('Actions', () => {
       exportAccountSpy = sinon.spy(background, 'exportAccount')
 
       return store.dispatch(actions.exportAccount(password, '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc'))
-        .then(() => {
+        .then((result) => {
           assert(submitPasswordSpy.calledOnce)
           assert(exportAccountSpy.calledOnce)
           assert.deepEqual(store.getActions(), expectedActions)
@@ -1150,7 +1202,7 @@ describe('Actions', () => {
       ]
 
       submitPasswordSpy = sinon.stub(background, 'submitPassword')
-      submitPasswordSpy.callsFake((_, callback) => {
+      submitPasswordSpy.callsFake((password, callback) => {
         callback(new Error('error'))
       })
 
@@ -1169,7 +1221,7 @@ describe('Actions', () => {
       ]
 
       exportAccountSpy = sinon.stub(background, 'exportAccount')
-      exportAccountSpy.callsFake((_, callback) => {
+      exportAccountSpy.callsFake((address, callback) => {
         callback(new Error('error'))
       })
 
@@ -1196,6 +1248,7 @@ describe('Actions', () => {
 
   describe('#pairUpdate', () => {
     beforeEach(() => {
+
       nock('https://shapeshift.io')
         .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
         .get('/marketinfo/btc_eth')
@@ -1205,6 +1258,10 @@ describe('Actions', () => {
         .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
         .get('/coins')
         .reply(200)
+      })
+
+    afterEach(() => {
+      nock.restore()
     })
 
     it('', () => {
@@ -1246,7 +1303,7 @@ describe('Actions', () => {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
 
-      setFeatureFlagSpy.callsFake((_, __, callback) => {
+      setFeatureFlagSpy.callsFake((feature, activated, callback) => {
         callback(new Error('error'))
       })
 
@@ -1254,25 +1311,6 @@ describe('Actions', () => {
         .catch(() => {
           assert.deepEqual(store.getActions(), expectedActions)
         })
-    })
-  })
-
-  describe('#setCompletedOnboarding', () => {
-    let completeOnboardingSpy
-
-    beforeEach(() => {
-      completeOnboardingSpy = sinon.stub(background, 'completeOnboarding')
-      completeOnboardingSpy.callsFake(cb => cb())
-    })
-
-    after(() => {
-      completeOnboardingSpy.restore()
-    })
-
-    it('completes onboarding', async () => {
-      const store = mockStore()
-      await store.dispatch(actions.setCompletedOnboarding())
-      assert.equal(completeOnboardingSpy.callCount, 1)
     })
   })
 
@@ -1300,7 +1338,7 @@ describe('Actions', () => {
       ]
 
       getTransactionCountSpy = sinon.stub(global.ethQuery, 'getTransactionCount')
-      getTransactionCountSpy.callsFake((_, callback) => {
+      getTransactionCountSpy.callsFake((address, callback) => {
         callback(new Error('error'))
       })
 
@@ -1338,7 +1376,7 @@ describe('Actions', () => {
         { type: 'SET_USE_BLOCKIE', value: undefined },
       ]
 
-      setUseBlockieSpy.callsFake((_, callback) => {
+      setUseBlockieSpy.callsFake((val, callback) => {
         callback(new Error('error'))
       })
 
@@ -1385,7 +1423,7 @@ describe('Actions', () => {
         { type: 'DISPLAY_WARNING', value: 'error' },
       ]
       setCurrentLocaleSpy = sinon.stub(background, 'setCurrentLocale')
-      setCurrentLocaleSpy.callsFake((_, callback) => {
+      setCurrentLocaleSpy.callsFake((key, callback) => {
         callback(new Error('error'))
       })
 

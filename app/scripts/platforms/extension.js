@@ -1,5 +1,12 @@
 const extension = require('extensionizer')
-const {createExplorerLink: explorerLink} = require('etherscan-link')
+const explorerLinks = require('eth-net-props').explorerLinks
+const { capitalizeFirstLetter } = require('../lib/util')
+const {
+  POA_CODE,
+  DAI_CODE,
+  POA_SOKOL_CODE,
+  TOMO_TESTNET_CODE,
+  TOMO_CODE } = require('../controllers/network/enums')
 
 class ExtensionPlatform {
 
@@ -17,6 +24,27 @@ class ExtensionPlatform {
   closeCurrentWindow () {
     return extension.windows.getCurrent((windowDetails) => {
       return extension.windows.remove(windowDetails.id)
+    })
+  }
+
+  /**
+   * Closes all notifications windows, when action is confirmed in popup
+   * or closes notification window itself, when action is confirmed from it
+   */
+  closeNotificationWindow () {
+    return extension.windows.getCurrent((curWindowsDetails) => {
+      if (curWindowsDetails.type === 'popup') {
+        return extension.windows.remove(curWindowsDetails.id)
+      } else {
+        extension.windows.getAll((windowsDetails) => {
+          const windowsDetailsFiltered = windowsDetails.filter((windowDetails) => windowDetails.id !== curWindowsDetails.id)
+          return windowsDetailsFiltered.forEach((windowDetails) => {
+            if (windowDetails.type === 'popup') {
+              extension.windows.remove(windowDetails.id)
+            }
+          })
+        })
+      }
     })
   }
 
@@ -48,13 +76,10 @@ class ExtensionPlatform {
   }
 
   showTransactionNotification (txMeta) {
-    const { status, txReceipt: { status: receiptStatus } = {} } = txMeta
 
+    const status = txMeta.status
     if (status === 'confirmed') {
-      // There was an on-chain failure
-      receiptStatus === '0x0'
-        ? this._showFailedTransaction(txMeta, 'Transaction encountered an error.')
-        : this._showConfirmedTransaction(txMeta)
+      this._showConfirmedTransaction(txMeta)
     } else if (status === 'failed') {
       this._showFailedTransaction(txMeta)
     }
@@ -64,19 +89,19 @@ class ExtensionPlatform {
 
     this._subscribeToNotificationClicked()
 
-    const url = explorerLink(txMeta.hash, parseInt(txMeta.metamaskNetworkId))
+    const { url, explorerName } = this._getExplorer(txMeta.hash, parseInt(txMeta.metamaskNetworkId))
     const nonce = parseInt(txMeta.txParams.nonce, 16)
 
     const title = 'Confirmed transaction'
-    const message = `Transaction ${nonce} confirmed! View on EtherScan`
+    const message = `Transaction ${nonce} confirmed! View on ${explorerName}`
     this._showNotification(title, message, url)
   }
 
-  _showFailedTransaction (txMeta, errorMessage) {
+  _showFailedTransaction (txMeta) {
 
     const nonce = parseInt(txMeta.txParams.nonce, 16)
     const title = 'Failed transaction'
-    const message = `Transaction ${nonce} failed! ${errorMessage || txMeta.err.message}`
+    const message = `Transaction ${nonce} failed! ${capitalizeFirstLetter(txMeta.err.message)}`
     this._showNotification(title, message)
   }
 
@@ -91,17 +116,38 @@ class ExtensionPlatform {
       })
   }
 
-  _subscribeToNotificationClicked () {
-    if (!extension.notifications.onClicked.hasListener(this._viewOnEtherScan)) {
-      extension.notifications.onClicked.addListener(this._viewOnEtherScan)
+  _subscribeToNotificationClicked = () => {
+    if (extension.notifications.onClicked.hasListener(this._viewOnExplorer)) {
+      extension.notifications.onClicked.removeListener(this._viewOnExplorer)
+    }
+    extension.notifications.onClicked.addListener(this._viewOnExplorer)
+  }
+
+  _viewOnExplorer (url) {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      global.metamaskController.platform.openWindow({ url })
     }
   }
 
-  _viewOnEtherScan (txId) {
-    if (txId.startsWith('http://')) {
-      extension.tabs.create({ url: txId })
+  _getExplorer (hash, networkId) {
+    let explorerName
+    if (networkId === POA_CODE ||
+        networkId === DAI_CODE ||
+        networkId === POA_SOKOL_CODE ||
+        networkId === TOMO_TESTNET_CODE ||
+        networkId === TOMO_CODE
+    ) {
+      explorerName = 'BlockScout'
+    } else {
+      explorerName = 'Etherscan'
+    }
+
+    return {
+      explorerName: explorerName,
+      url: explorerLinks.getExplorerTxLinkFor(hash, networkId),
     }
   }
+
 }
 
 module.exports = ExtensionPlatform

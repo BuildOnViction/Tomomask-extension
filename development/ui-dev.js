@@ -17,7 +17,7 @@
 
 const render = require('react-dom').render
 const h = require('react-hyperscript')
-const Root = require('../ui/app/pages')
+const Root = require('../ui/app/root')
 const configureStore = require('./uiStore')
 const states = require('./states')
 const Selector = require('./selector')
@@ -34,7 +34,7 @@ let selectedView = queryString.view || 'first time'
 updateQueryParams(selectedView)
 
 // CSS
-const MetaMaskUiCss = require('../ui/css')
+const MetaMaskUiCss = require('../old-ui/css')
 const injectCss = require('inject-css')
 
 

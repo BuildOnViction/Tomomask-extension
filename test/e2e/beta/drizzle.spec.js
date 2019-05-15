@@ -19,7 +19,6 @@ const {
   openNewPage,
   verboseReportOnFailure,
   waitUntilXWindowHandles,
-  switchToWindowWithTitle,
 } = require('./helpers')
 
 describe('MetaMask', function () {
@@ -81,6 +80,22 @@ describe('MetaMask', function () {
     })
 
     it('selects the new UI option', async () => {
+      try {
+        const overlay = await findElement(driver, By.css('.full-flex-height'))
+        await driver.wait(until.stalenessOf(overlay))
+      } catch (e) {}
+
+      let button
+      try {
+        button = await findElement(driver, By.xpath("//button[contains(text(), 'Try it now')]"))
+      } catch (e) {
+        await loadExtension(driver, extensionId)
+        await delay(largeDelayMs)
+        button = await findElement(driver, By.xpath("//button[contains(text(), 'Try it now')]"))
+      }
+      await button.click()
+      await delay(regularDelayMs)
+
       // Close all other tabs
       const [tab0, tab1, tab2] = await driver.getAllWindowHandles()
       await driver.switchTo().window(tab0)
@@ -112,7 +127,7 @@ describe('MetaMask', function () {
       await loadExtension(driver, extensionId)
       await delay(regularDelayMs)
 
-      const continueBtn = await findElement(driver, By.css('.first-time-flow__button'))
+      const continueBtn = await findElement(driver, By.css('.welcome-screen__button'))
       await continueBtn.click()
       await delay(regularDelayMs)
     })
@@ -120,9 +135,9 @@ describe('MetaMask', function () {
 
   describe('Going through the first time flow', () => {
     it('accepts a secure password', async () => {
-      const passwordBox = await findElement(driver, By.css('.first-time-flow__form #create-password'))
-      const passwordBoxConfirm = await findElement(driver, By.css('.first-time-flow__form #confirm-password'))
-      const button = await findElement(driver, By.css('.first-time-flow__form button'))
+      const passwordBox = await findElement(driver, By.css('.create-password #create-password'))
+      const passwordBoxConfirm = await findElement(driver, By.css('.create-password #confirm-password'))
+      const button = await findElement(driver, By.css('.create-password button'))
 
       await passwordBox.sendKeys('correct horse battery staple')
       await passwordBoxConfirm.sendKeys('correct horse battery staple')
@@ -131,21 +146,19 @@ describe('MetaMask', function () {
     })
 
     it('clicks through the unique image screen', async () => {
-      await findElement(driver, By.css('.first-time-flow__unique-image'))
-      const nextScreen = await findElement(driver, By.css('button.first-time-flow__button'))
+      const nextScreen = await findElement(driver, By.css('.unique-image button'))
       await nextScreen.click()
       await delay(regularDelayMs)
     })
 
     it('clicks through the ToS', async () => {
       // terms of use
-      await findElement(driver, By.css('.first-time-flow__markdown'))
-      const canClickThrough = await driver.findElement(By.css('button.first-time-flow__button')).isEnabled()
+      const canClickThrough = await driver.findElement(By.css('.tou button')).isEnabled()
       assert.equal(canClickThrough, false, 'disabled continue button')
       const bottomOfTos = await findElement(driver, By.linkText('Attributions'))
       await driver.executeScript('arguments[0].scrollIntoView(true)', bottomOfTos)
       await delay(regularDelayMs)
-      const acceptTos = await findElement(driver, By.css('button.first-time-flow__button'))
+      const acceptTos = await findElement(driver, By.css('.tou button'))
       driver.wait(until.elementIsEnabled(acceptTos))
       await acceptTos.click()
       await delay(regularDelayMs)
@@ -153,17 +166,17 @@ describe('MetaMask', function () {
 
     it('clicks through the privacy notice', async () => {
       // privacy notice
-      const nextScreen = await findElement(driver, By.css('button.first-time-flow__button'))
+      const nextScreen = await findElement(driver, By.css('.tou button'))
       await nextScreen.click()
       await delay(regularDelayMs)
     })
 
     it('clicks through the phishing notice', async () => {
       // phishing notice
-      const noticeElement = await driver.findElement(By.css('.first-time-flow__markdown'))
+      const noticeElement = await driver.findElement(By.css('.markdown'))
       await driver.executeScript('arguments[0].scrollTop = arguments[0].scrollHeight', noticeElement)
       await delay(regularDelayMs)
-      const nextScreen = await findElement(driver, By.css('button.first-time-flow__button'))
+      const nextScreen = await findElement(driver, By.css('.tou button'))
       await nextScreen.click()
       await delay(regularDelayMs)
     })
@@ -171,23 +184,24 @@ describe('MetaMask', function () {
     let seedPhrase
 
     it('reveals the seed phrase', async () => {
-      const byRevealButton = By.css('.reveal-seed-phrase__secret-blocker .reveal-seed-phrase__reveal-button')
+      const byRevealButton = By.css('.backup-phrase__secret-blocker .backup-phrase__reveal-button')
       await driver.wait(until.elementLocated(byRevealButton, 10000))
       const revealSeedPhraseButton = await findElement(driver, byRevealButton, 10000)
       await revealSeedPhraseButton.click()
       await delay(regularDelayMs)
 
-      seedPhrase = await driver.findElement(By.css('.reveal-seed-phrase__secret-words')).getText()
+      seedPhrase = await driver.findElement(By.css('.backup-phrase__secret-words')).getText()
       assert.equal(seedPhrase.split(' ').length, 12)
       await delay(regularDelayMs)
 
-      const nextScreen = await findElement(driver, By.css('button.first-time-flow__button'))
+      const nextScreen = await findElement(driver, By.css('.backup-phrase button'))
       await nextScreen.click()
       await delay(regularDelayMs)
     })
 
     async function clickWordAndWait (word) {
-      const xpath = `//div[contains(@class, 'confirm-seed-phrase__seed-word--shuffled') and not(contains(@class, 'confirm-seed-phrase__seed-word--selected')) and contains(text(), '${word}')]`
+      const xpathClass = 'backup-phrase__confirm-seed-option backup-phrase__confirm-seed-option--unselected'
+      const xpath = `//button[@class='${xpathClass}' and contains(text(), '${word}')]`
       const word0 = await findElement(driver, By.xpath(xpath), 10000)
 
       await word0.click()
@@ -197,13 +211,13 @@ describe('MetaMask', function () {
     async function retypeSeedPhrase (words, wasReloaded, count = 0) {
       try {
         if (wasReloaded) {
-          const byRevealButton = By.css('.reveal-seed-phrase__secret-blocker .reveal-seed-phrase__reveal-button')
+          const byRevealButton = By.css('.backup-phrase__secret-blocker .backup-phrase__reveal-button')
           await driver.wait(until.elementLocated(byRevealButton, 10000))
           const revealSeedPhraseButton = await findElement(driver, byRevealButton, 10000)
           await revealSeedPhraseButton.click()
           await delay(regularDelayMs)
 
-          const nextScreen = await findElement(driver, By.css('button.first-time-flow__button'))
+          const nextScreen = await findElement(driver, By.css('.backup-phrase button'))
           await nextScreen.click()
           await delay(regularDelayMs)
         }
@@ -252,31 +266,17 @@ describe('MetaMask', function () {
   })
 
   describe('Drizzle', () => {
-    let windowHandles
-    let extension
-    let popup
-    let dapp
-
-    it('should be able to connect the account', async () => {
+    it('should be able to detect our eth address', async () => {
       await openNewPage(driver, 'http://127.0.0.1:3000/')
       await delay(regularDelayMs)
 
-      await waitUntilXWindowHandles(driver, 3)
-      windowHandles = await driver.getAllWindowHandles()
+      await waitUntilXWindowHandles(driver, 2)
+      const windowHandles = await driver.getAllWindowHandles()
+      const dapp = windowHandles[1]
 
-      extension = windowHandles[0]
-      popup = await switchToWindowWithTitle(driver, 'MetaMask Notification', windowHandles)
-      dapp = windowHandles.find(handle => handle !== extension && handle !== popup)
-
-      await delay(regularDelayMs)
-      const approveButton = await findElement(driver, By.xpath(`//button[contains(text(), 'Connect')]`))
-      await approveButton.click()
-    })
-
-    it('should be able to detect our eth address', async () => {
-      // Check if address exposed
       await driver.switchTo().window(dapp)
       await delay(regularDelayMs)
+
 
       const addressElement = await findElement(driver, By.css(`.pure-u-1-1 h4`))
       const addressText = await addressElement.getText()

@@ -2,7 +2,7 @@
   "metamask": {
     "isInitialized": true,
     "isUnlocked": true,
-    "featureFlags": {"betaUI": true},
+    "featureFlags": {"betaUI": false},
     "rpcTarget": "https://rawtestrpc.metamask.io/",
     "identities": {
       "0xfdea65c8e26263f6d9a1b5de9555d2931a33b825": {
@@ -104,13 +104,13 @@
       "amount": "0x0",
       "memo": "",
       "errors": {},
-      "warnings": {},      
       "maxModeOn": false,
       "editingTransactionId": null
     },
     "currentLocale": "en",
+    "currentAccountTab": "tokens",
     "preferences": {
-      "useNativeCurrencyAsPrimaryCurrency": true
+      "useETHAsPrimaryCurrency": true
     }
   },
   "appState": {

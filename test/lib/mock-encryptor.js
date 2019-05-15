@@ -4,12 +4,12 @@ let cacheVal
 
 module.exports = {
 
-  encrypt (_, dataObj) {
+  encrypt (password, dataObj) {
     cacheVal = dataObj
     return Promise.resolve(mockHex)
   },
 
-  decrypt () {
+  decrypt (password, text) {
     return Promise.resolve(cacheVal || {})
   },
 
@@ -21,7 +21,7 @@ module.exports = {
     return this.decrypt(key, text)
   },
 
-  keyFromPassword () {
+  keyFromPassword (password) {
     return Promise.resolve(mockKey)
   },
 

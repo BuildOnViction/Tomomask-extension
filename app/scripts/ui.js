@@ -1,14 +1,15 @@
 const injectCss = require('inject-css')
+const OldMetaMaskUiCss = require('../../old-ui/css')
 const NewMetaMaskUiCss = require('../../ui/css')
 const startPopup = require('./popup-core')
 const PortStream = require('extension-port-stream')
 const { getEnvironmentType } = require('./lib/util')
-const { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_FULLSCREEN } = require('./lib/enums')
+const { ENVIRONMENT_TYPE_NOTIFICATION } = require('./lib/enums')
 const extension = require('extensionizer')
 const ExtensionPlatform = require('./platforms/extension')
 const NotificationManager = require('./lib/notification-manager')
 const notificationManager = new NotificationManager()
-const setupSentry = require('./lib/setupSentry')
+const setupRaven = require('./lib/setupRaven')
 const log = require('loglevel')
 
 start().catch(log.error)
@@ -20,17 +21,11 @@ async function start () {
 
   // setup sentry error reporting
   const release = global.platform.getVersion()
-  setupSentry({ release, getState })
-  // provide app state to append to error logs
-  function getState () {
-    // get app state
-    const state = window.getCleanAppState()
-    // remove unnecessary data
-    delete state.localeMessages
-    delete state.metamask.recentBlocks
-    // return state to be added to request
-    return state
-  }
+  setupRaven({ release })
+
+  // inject css
+  // const css = MetaMaskUiCss()
+  // injectCss(css)
 
   // identify window type (popup, notification)
   const windowType = getEnvironmentType(window.location.href)
@@ -46,15 +41,30 @@ async function start () {
   startPopup({ container, connectionStream }, (err, store) => {
     if (err) return displayCriticalError(err)
 
-    const state = store.getState()
-    const { metamask: { completedOnboarding } = {} } = state
+    // Code commented out until we begin auto adding users to NewUI
+    // const { isMascara, identities = {}, featureFlags = {} } = store.getState().metamask
+    // const firstTime = Object.keys(identities).length === 0
+    const { isMascara, featureFlags = {} } = store.getState().metamask
+    let betaUIState = featureFlags.betaUI
 
-    if (!completedOnboarding && windowType !== ENVIRONMENT_TYPE_FULLSCREEN) {
-      global.platform.openExtensionInBrowser()
-      return
-    }
+    // Code commented out until we begin auto adding users to NewUI
+    // const useBetaCss = isMascara || firstTime || betaUIState
+    const useBetaCss = isMascara || betaUIState
 
-    injectCss(NewMetaMaskUiCss())
+    let css = useBetaCss ? NewMetaMaskUiCss() : OldMetaMaskUiCss()
+    let deleteInjectedCss = injectCss(css)
+    let newBetaUIState
+
+    store.subscribe(() => {
+      const state = store.getState()
+      newBetaUIState = state.metamask.featureFlags.betaUI
+      if (newBetaUIState !== betaUIState) {
+        deleteInjectedCss()
+        betaUIState = newBetaUIState
+        css = betaUIState ? NewMetaMaskUiCss() : OldMetaMaskUiCss()
+        deleteInjectedCss = injectCss(css)
+      }
+    })
   })
 
 
@@ -66,7 +76,7 @@ async function start () {
   }
 
   function displayCriticalError (err) {
-    container.innerHTML = '<div class="critical-error">The MetaMask app failed to load: please open and close MetaMask again to restart.</div>'
+    container.innerHTML = '<div class="critical-error">The Nifty Wallet app failed to load: please open and close Nifty Wallet again to restart.</div>'
     container.style.height = '80px'
     log.error(err.stack)
     throw err

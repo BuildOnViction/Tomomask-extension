@@ -59,7 +59,7 @@ describe('currency-controller', function () {
 
 
         var promise = new Promise(
-          function (resolve) {
+          function (resolve, reject) {
             currencyController.setCurrentCurrency('jpy')
             currencyController.updateConversionRate().then(function () {
               resolve()

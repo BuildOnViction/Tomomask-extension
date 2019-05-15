@@ -36,7 +36,7 @@ module.exports = class PersonalMessageManager extends EventEmitter {
    * @property {array} messages Holds all messages that have been created by this PersonalMessageManager
    *
    */
-  constructor () {
+  constructor (opts) {
     super()
     this.memStore = new ObservableStore({
       unapprovedPersonalMsgs: {},
@@ -80,7 +80,7 @@ module.exports = class PersonalMessageManager extends EventEmitter {
   addUnapprovedMessageAsync (msgParams, req) {
     return new Promise((resolve, reject) => {
       if (!msgParams.from) {
-        reject(new Error('MetaMask Message Signature: from field is required.'))
+        reject(new Error('TomoMask Message Signature: from field is required.'))
       }
       const msgId = this.addUnapprovedMessage(msgParams, req)
       this.once(`${msgId}:finished`, (data) => {
@@ -88,9 +88,9 @@ module.exports = class PersonalMessageManager extends EventEmitter {
           case 'signed':
             return resolve(data.rawSig)
           case 'rejected':
-            return reject(new Error('MetaMask Message Signature: User denied message signature.'))
+            return reject(new Error('TomoMask Message Signature: User denied message signature.'))
           default:
-            return reject(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))
+            return reject(new Error(`TomoMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))
         }
       })
     })

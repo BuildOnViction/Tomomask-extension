@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "โหมดความเป็นส่วนตัว"
-  },
-  "privacyModeDescription": {
-    "message": "เว็บไซต์ต้องขอเข้าถึงเพื่อดูข้อมูลบัญชีของคุณ"
-  },
-  "exposeAccounts": {
-    "message": "เปิดเผยบัญชี"
-  },
-  "exposeDescription": {
-    "message": "เปิดเผยบัญชีไปยังเว็บไซต์ปัจจุบัน มีประโยชน์สำหรับ dapps แบบเดิม"
-  },
-  "confirmExpose": {
-    "message": "คุณแน่ใจหรือไม่ว่าต้องการเปิดเผยบัญชีของคุณไปยังเว็บไซต์ปัจจุบัน"
-  },
-  "confirmClear": {
-    "message": "คุณแน่ใจหรือไม่ว่าต้องการล้างเว็บไซต์ที่ผ่านการอนุมัติ"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "อนุมัติข้อมูลเว็บไซต์ที่ได้รับอนุมัติแล้ว"
-  },
-  "approvalData": {
-    "message": "ข้อมูลการอนุมัติ"
-  },
-  "approvalDataDescription": {
-    "message": "ล้างข้อมูลเว็บไซต์ที่ได้รับการอนุมัติเพื่อให้ทุกไซต์ต้องขออนุมัติอีกครั้ง"
-  },
-  "clearApprovalData": {
-    "message": "ล้างข้อมูลการอนุมัติ"
-  },
-  "approve": {
-    "message": "อนุมัติ"
-  },
-  "reject": {
-    "message": "ปฏิเสธ"
-  },
-  "providerAPIRequest": {
-    "message": "คำขอ Web3 API"
-  },
-  "reviewProviderRequest": {
-    "message": "โปรดอ่านคำขอ Ethereum API นี้"
-  },
-  "providerRequestInfo": {
-    "message": "โดเมนที่แสดงด้านล่างกำลังพยายามขอเข้าถึง API ของ Ethereum เพื่อให้สามารถโต้ตอบกับบล็อค Ethereum ได้ ตรวจสอบว่าคุณอยู่ในไซต์ที่ถูกต้องก่อนที่จะอนุมัติการเข้าถึง Ethereum เสมอ"
-  },
   "accept": {
     "message": "ยอมรับ"
   },
@@ -79,7 +34,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "TomoMask",
     "description": "The name of the application"
   },
   "attemptingConnect": {
@@ -117,7 +72,7 @@
     "message": "ยืมด้วย Dharma (เบต้า)"
   },
   "builtInCalifornia": {
-    "message": "MetaMask ออกแบบและพัฒนาที่แคลิฟอร์เนีย"
+    "message": "TomoMask ออกแบบและพัฒนาที่แคลิฟอร์เนีย"
   },
   "buy": {
     "message": "ซื้อ"
@@ -127,12 +82,6 @@
   },
   "buyCoinbaseExplainer": {
     "message": "Coinbase เป็นแหล่งซื้อขายบิตคอยน์ไลท์คอยน์และอีเธอเรียมที่ได้รับความนิยมสูงสุดในโลก"
-  },
-  "buyCoinSwitch": {
-    "message": "ซื้อด้วย CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch เป็นจุดหมายปลายทางแบบครบวงจรในการแลกเปลี่ยนสกุลเงินมากกว่า 300 ครั้งในอัตราที่ดีที่สุด"
   },
   "cancel": {
     "message": "ยกเลิก"
@@ -160,9 +109,6 @@
   },
   "continueToCoinbase": {
     "message": "ไปที่ Coinbase"
-  },
-  "continueToCoinSwitch": {
-    "message": "ไปที่ CoinSwitch"
   },
   "contractDeployment": {
     "message": "การติดตั้งสัญญา"
@@ -232,7 +178,7 @@
     "message": "ค่าเริ่มต้นของเครือข่ายสำหรับทำรายการธุรกรรมอีเธอร์คือ Main Net"
   },
   "denExplainer": {
-    "message": "DEN ของคุณคือตัวเก็บข้อมูลที่เข้ารหัสไว้ด้วยรหัสผ่านของคุณภายใน MetaMask "
+    "message": "DEN ของคุณคือตัวเก็บข้อมูลที่เข้ารหัสไว้ด้วยรหัสผ่านของคุณภายใน TomoMask "
   },
   "deposit": {
     "message": "ฝาก"
@@ -260,7 +206,7 @@
     "message": "ฝากด้วย ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "ถ้ามีเงินสกุลอื่นอยู่ก็สามารถแลกเงินและฝากเป็นอีเธอร์ได้โดยตรงเข้ากระเป๋า MetaMask ได้เลยไม่ต้องสมัครบัญชี"
+    "message": "ถ้ามีเงินสกุลอื่นอยู่ก็สามารถแลกเงินและฝากเป็นอีเธอร์ได้โดยตรงเข้ากระเป๋า TomoMask ได้เลยไม่ต้องสมัครบัญชี"
   },
   "details": {
     "message": "รายละเอียด"
@@ -495,7 +441,7 @@
     "message": "ข้อความ"
   },
   "metamaskDescription": {
-    "message": "MetaMask คือที่เก็บตัวตนนิรภัยสำหรับอีเธอเรียม"
+    "message": "TomoMask คือที่เก็บตัวตนนิรภัยสำหรับอีเธอเรียม"
   },
   "min": {
     "message": "ขั้นต่ำ"
@@ -507,7 +453,7 @@
     "message": "ต้องเลือกอย่างน้อย 1 โทเค็น"
   },
   "needEtherInWallet": {
-    "message": "คุณจะต้องมีอีเธอร์ในกระเป๋าเงินของคุณในการใช้งานกับแอพพลิเคชันแบบกระจายด้วย MetaMask"
+    "message": "คุณจะต้องมีอีเธอร์ในกระเป๋าเงินของคุณในการใช้งานกับแอพพลิเคชันแบบกระจายด้วย TomoMask"
   },
   "needImportFile": {
     "message": "คุณต้องเลือกไฟล์ที่จะนำเข้า",
@@ -655,6 +601,9 @@
   "rinkeby": {
     "message": "เครือข่ายทดสอบ Rinkeby"
   },
+  "poa": {
+    "message": "[Not translated]"
+  },
   "ropsten": {
     "message": "เครือข่ายทดสอบ Ropsten"
   },
@@ -750,8 +699,8 @@
   "supportCenter": {
     "message": "ไปที่ศูนย์สนับสนุนของเรา"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "สัญลักษณ์ต้องมีความยาวตั้งแต่ 0 ถึง 12 อักขระ"
+  "symbolBetweenZeroTen": {
+    "message": "สัญลักษณ์ต้องมีความยาวตั้งแต่ 0 ถึง 10 อักขระ"
   },
   "takesTooLong": {
     "message": "ใช้เวลานานเกินไปใช่หรือไม่?"
@@ -785,7 +734,7 @@
     "message": "สัญลักษณ์ประจำตัว"
   },
   "tokenWarning1": {
-    "message": "ติดตามโทเค็นที่คุณซื้อด้วยบัญชี MetaMask ของคุณ หากคุณซื้อโทเค็นโดยใช้บัญชีอื่นโทเค็นเหล่านั้นจะไม่ปรากฏที่นี่"
+    "message": "ติดตามโทเค็นที่คุณซื้อด้วยบัญชี TomoMask ของคุณ หากคุณซื้อโทเค็นโดยใช้บัญชีอื่นโทเค็นเหล่านั้นจะไม่ปรากฏที่นี่"
   },
   "total": {
     "message": "รวม"
@@ -807,7 +756,7 @@
     "description": "Followed by a link (here) to view token balances"
   },
   "twelveWords": {
-    "message": "กลุ่มคำ 12 คำเหล่านี้เป็นวิธีเดียวที่จะกู้คืนบัญชี MetaMask ของคุณ \n กรุณาเก็บไว้ในที่ปลอดภัยและเก็บเป็นความลับ"
+    "message": "กลุ่มคำ 12 คำเหล่านี้เป็นวิธีเดียวที่จะกู้คืนบัญชี TomoMask ของคุณ \n กรุณาเก็บไว้ในที่ปลอดภัยและเก็บเป็นความลับ"
   },
   "typePassword": {
     "message": "พิมพ์รหัสผ่านของคุณ"
@@ -816,7 +765,7 @@
     "message": "ยินดีต้อนรับสู่หน้าตาใหม่ (เบต้า)"
   },
   "uiWelcomeMessage": {
-    "message": "ขณะนี้คุณใช้งาน MetaMask หน้าตาใหม่แล้ว ลองใช้ความสามรถใหม่ ๆ เช่นการส่งโทเค็นและหากพบปัญหากรุณาแจ้งให้เราทราบ"
+    "message": "ขณะนี้คุณใช้งาน TomoMask หน้าตาใหม่แล้ว ลองใช้ความสามรถใหม่ ๆ เช่นการส่งโทเค็นและหากพบปัญหากรุณาแจ้งให้เราทราบ"
   },
   "unavailable": {
     "message": "ใช้งานไม่ได้"
@@ -858,8 +807,8 @@
   "warning": {
     "message": "คำเตือน"
   },
-  "welcome": {
-    "message": "ยินดีต้อนรับสู่ MetaMask เบต้า"
+  "welcomeBeta": {
+    "message": "ยินดีต้อนรับสู่ TomoMask เบต้า"
   },
   "whatsThis": {
     "message": "นี่คืออะไร?"

@@ -4,7 +4,7 @@ const InfuraController = require('../../../../app/scripts/controllers/infura')
 
 describe('infura-controller', function () {
   let infuraController, sandbox, networkStatus
-  const response = {'mainnet': 'degraded', 'ropsten': 'ok', 'kovan': 'ok', 'rinkeby': 'down', 'goerli': 'ok'}
+  const response = {'mainnet': 'degraded', 'ropsten': 'ok', 'kovan': 'ok', 'rinkeby': 'down'}
 
   before(async function () {
     infuraController = new InfuraController()
@@ -56,16 +56,6 @@ describe('infura-controller', function () {
 
       it('should have a value for Rinkeby status', function () {
         assert.equal(networkStatus.rinkeby, 'down')
-      })
-    })
-
-    describe('Goerli', function () {
-      it('should have Goerli', function () {
-        assert.equal(Object.keys(networkStatus)[4], 'goerli')
-      })
-
-      it('should have a value for Goerli status', function () {
-        assert.equal(networkStatus.goerli, 'ok')
       })
     })
   })

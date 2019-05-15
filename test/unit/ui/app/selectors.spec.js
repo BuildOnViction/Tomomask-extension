@@ -1,5 +1,5 @@
 const assert = require('assert')
-const selectors = require('../../../../ui/app/selectors/selectors')
+const selectors = require('../../../../ui/app/selectors')
 const mockState = require('../../../data/mock-state.json')
 const Eth = require('ethjs')
 
@@ -19,7 +19,6 @@ describe('Selectors', function () {
               'address': '0x0dcd5d886577d5081b0c52e242ef29e70be3e7bc',
             },
           },
-          cachedBalances: {},
         },
       }
     })
@@ -149,7 +148,7 @@ describe('Selectors', function () {
 
   it('#getSelectedTokenToFiatRate', () => {
     const selectedTokenToFiatRate = selectors.getSelectedTokenToFiatRate(mockState)
-    assert.equal(selectedTokenToFiatRate, '0.21880988420033492152')
+    assert.equal(selectedTokenToFiatRate, '0.21880988420033493')
   })
 
   describe('#getSelectedTokenContract', () => {

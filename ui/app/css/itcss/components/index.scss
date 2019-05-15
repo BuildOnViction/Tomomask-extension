@@ -1,4 +1,4 @@
-@import '../../../components/ui/button/buttons';
+@import './buttons.scss';
 
 @import './footer.scss';
 
@@ -30,6 +30,8 @@
 
 @import './currency-display.scss';
 
+@import './account-menu.scss';
+
 @import './menu.scss';
 
 @import './gas-slider.scss';
@@ -52,4 +54,6 @@
 
 @import './tooltip.scss';
 
-@import '../../../components/app/index';
+@import './welcome-screen.scss';
+
+@import '../../../components/index';

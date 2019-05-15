@@ -3,8 +3,8 @@ var assert = require('assert')
 var freeze = require('deep-freeze-strict')
 var path = require('path')
 
-var actions = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'store', 'actions.js'))
-var reducers = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'ducks', 'index.js'))
+var actions = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'actions.js'))
+var reducers = require(path.join(__dirname, '..', '..', '..', 'ui', 'app', 'reducers.js'))
 
 describe('config view actions', function () {
   var initialState = {
@@ -24,6 +24,13 @@ describe('config view actions', function () {
     it('should set appState.currentView.name to config', function () {
       var result = reducers(initialState, actions.showConfigPage())
       assert.equal(result.appState.currentView.name, 'config')
+    })
+  })
+
+  describe('SHOW_DELETE_RPC', function () {
+    it('should set appState.currentView.name to delete-rpc', function () {
+      const result = reducers(initialState, actions.showDeleteRPC())
+      assert.equal(result.appState.currentView.name, 'delete-rpc')
     })
   })
 

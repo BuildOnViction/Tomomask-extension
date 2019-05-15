@@ -1,9 +1,9 @@
 {
   "name": "__MSG_appName__",
   "short_name": "__MSG_appName__",
-  "version": "6.4.1",
+  "version": "1.0.1",
   "manifest_version": 2,
-  "author": "https://metamask.io",
+  "author": "TomoMask",
   "description": "__MSG_appDescription__",
   "commands": {
     "_execute_browser_action": {
@@ -21,7 +21,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "webextension@metamask.io"
+      "id": "webextension@niftywallet.io"
     }
   },
   "default_locale": "en",
@@ -37,7 +37,7 @@
       "19": "images/icon-19.png",
       "38": "images/icon-38.png"
     },
-    "default_title": "MetaMask",
+    "default_title": "TomoMask",
     "default_popup": "popup.html"
   },
   "content_scripts": [

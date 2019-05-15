@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "Modo de privacidade"
-  },
-  "privacyModeDescription": {
-    "message": "Os sites devem solicitar acesso para visualizar as informações da sua conta."
-  },
-  "exposeAccounts": {
-    "message": "Expor contas"
-  },
-  "exposeDescription": {
-    "message": "Exponha contas ao site atual. Útil para dapps herdados."
-  },
-  "confirmExpose": {
-    "message": "Tem certeza de que deseja expor suas contas ao site atual?"
-  },
-  "confirmClear": {
-    "message": "Tem certeza de que deseja limpar sites aprovados?"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "Dados aprovados do website foram limpos com sucesso."
-  },
-  "approvalData": {
-    "message": "Dados de aprovação"
-  },
-  "approvalDataDescription": {
-    "message": "Limpe os dados aprovados do website para que todos os sites solicitem aprovação novamente."
-  },
-  "clearApprovalData": {
-    "message": "Limpar dados de aprovação"
-  },
-  "approve": {
-    "message": "Aprovar"
-  },
-  "reject": {
-    "message": "Rejeitar"
-  },
-  "providerAPIRequest": {
-    "message": "Solicitação de API do Web3"
-  },
-  "reviewProviderRequest": {
-    "message": "Por favor, revise esta solicitação da API da Ethereum."
-  },
-  "providerRequestInfo": {
-    "message": "O domínio listado abaixo está tentando solicitar acesso à API Ethereum para que ele possa interagir com o blockchain Ethereum. Sempre verifique se você está no site correto antes de aprovar o acesso à Ethereum."
-  },
   "accept": {
     "message": "Aceitar"
   },
@@ -79,7 +34,7 @@
     "description": "A descrição da aplicação"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "TomoMask",
     "description": "Nome da aplicação"
   },
   "attemptingConnect": {
@@ -117,7 +72,7 @@
     "message": "Pedir Empréstimo Com Dharma (Beta)"
   },
   "builtInCalifornia": {
-    "message": "MetaMask é desenhada e construída na California."
+    "message": "TomoMask é desenhada e construída na California."
   },
   "buy": {
     "message": "Comprar"
@@ -127,12 +82,6 @@
   },
   "buyCoinbaseExplainer": {
     "message": "Coinbase é a forma mais conhecida para comprar e vender Bitcoin, Ethereum, e Litecoin."
-  },
-  "buyCoinSwitch": {
-    "message": "Comprar no CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch é o destino único para trocar mais de 300 moedas criptográficas com a melhor taxa."
   },
   "cancel": {
     "message": "Cancelar"
@@ -160,9 +109,6 @@
   },
   "continueToCoinbase": {
     "message": "Continuar para o Coinbase"
-  },
-  "continueToCoinSwitch": {
-    "message": "Continuar para o CoinSwitch"
   },
   "contractDeployment": {
     "message": "Distribuição do Contrato"
@@ -232,7 +178,7 @@
     "message": "A rede pré definida para transações em Ether é a Main Net."
   },
   "denExplainer": {
-    "message": " DEN é o armazenamento encriptado da sua palavra-passe no MetaMask."
+    "message": " DEN é o armazenamento encriptado da sua palavra-passe no TomoMask."
   },
   "deposit": {
     "message": "Depósito"
@@ -260,7 +206,7 @@
     "message": "Depositar com ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Se tem criptomoedas, pode trocar e depositar Ether diretamente na sua carteira MetaMask. Não precisa de conta."
+    "message": "Se tem criptomoedas, pode trocar e depositar Ether diretamente na sua carteira TomoMask. Não precisa de conta."
   },
   "details": {
     "message": "Detalhes"
@@ -405,7 +351,7 @@
     "message": "Importar Conta"
   },
   "importAccountMsg": {
-    "message": "Contas importadas não irão ser associadas com a frase seed da conta criada originalmente pelo MetaMask. Saiba mais sobre contas importadas."
+    "message": "Contas importadas não irão ser associadas com a frase seed da conta criada originalmente pelo TomoMask. Saiba mais sobre contas importadas."
   },
   "importAnAccount": {
     "message": "Importar uma conta"
@@ -495,7 +441,7 @@
     "message": "Mensagem"
   },
   "metamaskDescription": {
-    "message": "O MetaMask é um lugar seguro para guardar a sua identidade em em Ethereum."
+    "message": "O TomoMask é um lugar seguro para guardar a sua identidade em em Ethereum."
   },
   "min": {
     "message": "Mínimo"
@@ -507,7 +453,7 @@
     "message": "Deve escolher no mínimo 1 token."
   },
   "needEtherInWallet": {
-    "message": "Para interagir com applicações descentralizadas usando MetaMask tem de ter Ether na sua carteira."
+    "message": "Para interagir com applicações descentralizadas usando TomoMask tem de ter Ether na sua carteira."
   },
   "needImportFile": {
     "message": "Deve selecionar um ficheiro para importar.",
@@ -655,6 +601,9 @@
   "rinkeby": {
     "message": "Rede de Teste Rinkeby"
   },
+  "poa": {
+    "message": "[Not translated]"
+  },
   "ropsten": {
     "message": "Rede de Teste Ropsten"
   },
@@ -750,8 +699,8 @@
   "supportCenter": {
     "message": "Visitar o nosso Centro de Suporte"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "Símbolo deve conter entre 0 e 12 characters."
+  "symbolBetweenZeroTen": {
+    "message": "Símbolo deve conter entre 0 e 10 characters."
   },
   "takesTooLong": {
     "message": "A demorar muito?"
@@ -785,7 +734,7 @@
     "message": "Símbolo do Token"
   },
   "tokenWarning1": {
-    "message": "Registe os tokens que comprou com a sua conta MetaMask. Se comprou tokens utilizando uma conta diferente, esses tokens não irão aparecer aqui."
+    "message": "Registe os tokens que comprou com a sua conta TomoMask. Se comprou tokens utilizando uma conta diferente, esses tokens não irão aparecer aqui."
   },
   "total": {
     "message": "Total"
@@ -807,7 +756,7 @@
     "description": "Seguido de um link (aqui) para ver o balanço dos seus tokens"
   },
   "twelveWords": {
-    "message": "Estas 12 palavras são a única forma de recuperar as suas contas na MetaMask.\nGuarde-as num local seguro e secreto."
+    "message": "Estas 12 palavras são a única forma de recuperar as suas contas na TomoMask.\nGuarde-as num local seguro e secreto."
   },
   "typePassword": {
     "message": "Digite a sua Palavra-passe"
@@ -816,7 +765,7 @@
     "message": "Bem-vindo ao seu Novo UI (Beta)"
   },
   "uiWelcomeMessage": {
-    "message": "Está agora a usar o novo UI da MetaMask. Dê uma vista de olhos, experimenta as novas funcionalidades como enviar tokens e diga-nos se tiver algum problema."
+    "message": "Está agora a usar o novo UI da TomoMask. Dê uma vista de olhos, experimenta as novas funcionalidades como enviar tokens e diga-nos se tiver algum problema."
   },
   "unavailable": {
     "message": "Indisponível"
@@ -858,8 +807,8 @@
   "warning": {
     "message": "Aviso"
   },
-  "welcome": {
-    "message": "Bem-vindo ao MetaMask"
+  "welcomeBeta": {
+    "message": "Bem-vindo ao TomoMask Beta"
   },
   "whatsThis": {
     "message": "O que é isto?"

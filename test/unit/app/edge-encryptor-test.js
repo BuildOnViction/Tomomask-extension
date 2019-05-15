@@ -83,7 +83,7 @@ describe('EdgeEncryptor', function () {
       edgeEncryptor.encrypt(password, data)
         .then(function (encryptedData) {
           edgeEncryptor.decrypt('wrong password', encryptedData)
-          .then(function () {
+          .then(function (decryptedData) {
             assert.fail('could decrypt with wrong password')
             done()
           })

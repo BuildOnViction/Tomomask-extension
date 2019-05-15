@@ -20,13 +20,11 @@ describe('PendingTransactionTracker', function () {
         nonce: '0x1',
         value: '0xfffff',
       },
-      history: [{}],
       rawTx: '0xf86c808504a817c800827b0d940c62bb85faa3311a998d3aba8098c1235c564966880de0b6b3a7640000802aa08ff665feb887a25d4099e40e11f0fef93ee9608f404bd3f853dd9e84ed3317a6a02ec9d3d1d6e176d4d2593dd760e74ccac753e6a0ea0d00cc9789d0d7ff1f471d',
     }
     txMetaNoHash = {
       id: 2,
-      history: [{}],
-      status: 'submitted',
+      status: 'signed',
       txParams: { from: '0x1678a085c290ebd122dc42cba69373b5953b831d'},
     }
 
@@ -100,7 +98,7 @@ describe('PendingTransactionTracker', function () {
 
   describe('#_checkPendingTx', function () {
     it('should emit \'tx:failed\' if the txMeta does not have a hash', function (done) {
-      pendingTxTracker.once('tx:failed', (txId) => {
+      pendingTxTracker.once('tx:failed', (txId, err) => {
         assert(txId, txMetaNoHash.id, 'should pass txId')
         done()
       })
@@ -128,7 +126,7 @@ describe('PendingTransactionTracker', function () {
       pendingTxTracker.getPendingTransactions = () => txList
       pendingTxTracker._checkPendingTx = (tx) => { tx.resolve(tx) }
       Promise.all(txList.map((tx) => tx.processed))
-      .then(() => done())
+      .then((txCompletedList) => done())
       .catch(done)
 
       pendingTxTracker.updatePendingTxs()
@@ -152,7 +150,7 @@ describe('PendingTransactionTracker', function () {
       pendingTxTracker.getPendingTransactions = () => txList
       pendingTxTracker._resubmitTx = async (tx) => { tx.resolve(tx) }
       Promise.all(txList.map((tx) => tx.processed))
-      .then(() => done())
+      .then((txCompletedList) => done())
       .catch(done)
       pendingTxTracker.resubmitPendingTxs(blockNumberStub)
     })
@@ -178,7 +176,7 @@ describe('PendingTransactionTracker', function () {
         throw new Error(knownErrors.pop())
       }
       Promise.all(txList.map((tx) => tx.processed))
-      .then(() => done())
+      .then((txCompletedList) => done())
       .catch(done)
 
       pendingTxTracker.resubmitPendingTxs(blockNumberStub)
@@ -194,9 +192,9 @@ describe('PendingTransactionTracker', function () {
       })
 
       pendingTxTracker.getPendingTransactions = () => txList
-      pendingTxTracker._resubmitTx = async () => { throw new TypeError('im some real error') }
+      pendingTxTracker._resubmitTx = async (tx) => { throw new TypeError('im some real error') }
       Promise.all(txList.map((tx) => tx.processed))
-      .then(() => done())
+      .then((txCompletedList) => done())
       .catch(done)
 
       pendingTxTracker.resubmitPendingTxs(blockNumberStub)
@@ -214,7 +212,6 @@ describe('PendingTransactionTracker', function () {
       pendingTxTracker.publishTransaction = async (rawTx) => {
         assert.equal(rawTx, txMeta.rawTx, 'Should pass the rawTx')
       }
-      pendingTxTracker.approveTransaction = async () => {}
       sinon.spy(pendingTxTracker, 'publishTransaction')
 
       txMetaToTestExponentialBackoff = Object.assign({}, txMeta, {
@@ -268,18 +265,6 @@ describe('PendingTransactionTracker', function () {
       })
 
       assert.equal(pendingTxTracker.publishTransaction.callCount, 1, 'Should call publish transaction')
-    })
-
-    it('should call opts.approveTransaction with the id if the tx is not signed', async () => {
-      const stubTx = {
-        id: 40,
-      }
-      const approveMock = sinon.stub(pendingTxTracker, 'approveTransaction')
-
-      pendingTxTracker._resubmitTx(stubTx)
-
-      assert.ok(approveMock.called)
-      approveMock.restore()
     })
   })
 

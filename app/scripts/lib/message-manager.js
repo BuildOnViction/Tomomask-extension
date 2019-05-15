@@ -34,7 +34,7 @@ module.exports = class MessageManager extends EventEmitter {
    * @property {array} messages Holds all messages that have been created by this MessageManager
    *
    */
-  constructor () {
+  constructor (opts) {
     super()
     this.memStore = new ObservableStore({
       unapprovedMsgs: {},
@@ -82,9 +82,9 @@ module.exports = class MessageManager extends EventEmitter {
           case 'signed':
             return resolve(data.rawSig)
           case 'rejected':
-            return reject(new Error('MetaMask Message Signature: User denied message signature.'))
+            return reject(new Error('TomoMask Message Signature: User denied message signature.'))
           default:
-            return reject(new Error(`MetaMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))
+            return reject(new Error(`TomoMask Message Signature: Unknown problem: ${JSON.stringify(msgParams)}`))
         }
       })
     })

@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "隐私模式"
-  },
-  "privacyModeDescription": {
-    "message": "网站必须请求访问权限才能查看您的帐户信息。"
-  },
-  "exposeAccounts": {
-    "message": "公开账户"
-  },
-  "exposeDescription": {
-    "message": "将帐户公开给当前网站。对传统dapps很有用。"
-  },
-  "confirmExpose": {
-    "message": "您确定要将帐户公开到当前网站吗？"
-  },
-  "confirmClear": {
-    "message": "您确定要清除已批准的网站吗？"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "已批准的网站数据已成功清除。"
-  },
-  "approvalData": {
-    "message": "审批数据"
-  },
-  "approvalDataDescription": {
-    "message": "清除已批准的网站数据，以便所有网站都必须再次申请"
-  },
-  "clearApprovalData": {
-    "message": "清除批准数据"
-  },
-  "approve": {
-    "message": "批准"
-  },
-  "reject": {
-    "message": "拒绝"
-  },
-  "providerAPIRequest": {
-    "message": "Web3 API请求"
-  },
-  "reviewProviderRequest": {
-    "message": "请查看此Ethereum API请求。"
-  },
-  "providerRequestInfo": {
-    "message": "下面列出的域正在尝试请求访问Ethereum API，以便它可以与以太坊区块链进行交互。在批准Ethereum访问之前，请务必仔细检查您是否在正确的站点上。"
-  },
   "accept": {
     "message": "接受"
   },
@@ -82,7 +37,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "TomoMask",
     "description": "The name of the application"
   },
   "approved": {
@@ -134,12 +89,6 @@
   "buyCoinbaseExplainer": {
     "message": "Coinbase 是世界上最流行的买卖比特币，以太币和莱特币的交易所。"
   },
-  "buyCoinSwitch": {
-    "message": "在CoinSwitch上购买"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch是以最优惠的价格交换超过300种加密货币的一站式目的地。"
-  },
   "ok": {
     "message": "确认"
   },
@@ -178,9 +127,6 @@
   },
   "continueToCoinbase": {
     "message": "继续访问 Coinbase"
-  },
-  "continueToCoinSwitch": {
-    "message": "继续访问 CoinSwitch"
   },
   "contractDeployment": {
     "message": "合约部署"
@@ -253,7 +199,7 @@
     "message": "默认以太坊交易网络为主网。"
   },
   "denExplainer": {
-    "message": "你的 DEN 是存储在 MetaMask 中的已加密密码。"
+    "message": "你的 DEN 是存储在 TomoMask 中的已加密密码。"
   },
   "deposit": {
     "message": "存入"
@@ -281,7 +227,7 @@
     "message": "从 ShapeShift 存入"
   },
   "depositShapeShiftExplainer": {
-    "message": "如果你拥有其他加密货币，你可以直接交易并存入 Ether 到你的 MetaMask 钱包。 不需要帐户。"
+    "message": "如果你拥有其他加密货币，你可以直接交易并存入 Ether 到你的 TomoMask 钱包。 不需要帐户。"
   },
   "details": {
     "message": "详情"
@@ -441,7 +387,7 @@
     "message": "导入账户"
   },
   "importAccountMsg": {
-    "message": " Imported accounts will not be associated with your originally created MetaMask account seedphrase. Learn more about imported accounts "
+    "message": " Imported accounts will not be associated with your originally created TomoMask account seedphrase. Learn more about imported accounts "
   },
   "importAnAccount": {
     "message": "导入一个账户"
@@ -488,7 +434,7 @@
     "description": "format for importing an account"
   },
   "keepTrackTokens": {
-    "message": "Keep track of the tokens you’ve bought with your MetaMask account."
+    "message": "Keep track of the tokens you’ve bought with your TomoMask account."
   },
   "kovan": {
     "message": "Kovan 测试网络"
@@ -543,10 +489,10 @@
     "message": "消息"
   },
   "metamaskDescription": {
-    "message": "MetaMask is a secure identity vault for Ethereum."
+    "message": "TomoMask is a secure identity vault for Ethereum."
   },
   "metamaskSeedWords": {
-    "message": "MetaMask 助记词"
+    "message": "TomoMask 助记词"
   },
   "min": {
     "message": "最小"
@@ -558,7 +504,7 @@
     "message": "至少选择一种代币."
   },
   "needEtherInWallet": {
-    "message": "使用 MetaMask 与 DAPP 交互，需要你的钱包里有 Ether。"
+    "message": "使用 TomoMask 与 DAPP 交互，需要你的钱包里有 Ether。"
   },
   "needImportFile": {
     "message": "必须选择导入一个文件。",
@@ -727,6 +673,9 @@
   "rinkeby": {
     "message": "Rinkeby 测试网络"
   },
+  "poa": {
+    "message": "[Not translated]"
+  },
   "ropsten": {
     "message": "Ropsten 测试网络"
   },
@@ -744,6 +693,9 @@
   },
   "connectingToRinkeby": {
     "message": "正在连接到Rinkeby测试网络"
+  },
+  "connectingToPOA": {
+    "message": "[Not translated]"
   },
   "connectingToUnknown": {
     "message": "正在连接到未知网络"
@@ -873,8 +825,8 @@
   "supportCenter": {
     "message": "访问我们的支持中心"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "符号应该有0-12个字符."
+  "symbolBetweenZeroTen": {
+    "message": "符号应该有0-10个字符."
   },
   "takesTooLong": {
     "message": "花费太长时间？"
@@ -908,7 +860,7 @@
     "message": "代币符号"
   },
   "tokenWarning1": {
-    "message": "Keep track of the tokens you’ve bought with your MetaMask account. If you bought tokens using a different account, those tokens will not appear here."
+    "message": "Keep track of the tokens you’ve bought with your TomoMask account. If you bought tokens using a different account, those tokens will not appear here."
   },
   "total": {
     "message": "总量"
@@ -942,7 +894,7 @@
     "message": "欢迎使用新版界面 （Beta）"
   },
   "uiWelcomeMessage": {
-    "message": "你现在正在使用新的 MetaMask 界面。 尝试发送代币等新功能，有任何问题请告知我们。"
+    "message": "你现在正在使用新的 TomoMask 界面。 尝试发送代币等新功能，有任何问题请告知我们。"
   },
   "unapproved": {
     "message": "未批准"
@@ -987,8 +939,8 @@
   "warning": {
     "message": "警告"
   },
-  "welcome": {
-    "message": "欢迎使用 MetaMask 测试版"
+  "welcomeBeta": {
+    "message": "欢迎使用 TomoMask 测试版"
   },
   "whatsThis": {
     "message": "这是什么？"

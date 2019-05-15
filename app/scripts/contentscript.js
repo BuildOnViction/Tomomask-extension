@@ -1,15 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 const pump = require('pump')
-const log = require('loglevel')
-const Dnode = require('dnode')
 const querystring = require('querystring')
 const LocalMessageDuplexStream = require('post-message-stream')
+const PongStream = require('ping-pong-stream/pong')
 const ObjectMultiplex = require('obj-multiplex')
 const extension = require('extensionizer')
 const PortStream = require('extension-port-stream')
 
-const inpageContent = fs.readFileSync(path.join(__dirname, '..', '..', 'dist', 'chrome', 'inpage.js')).toString()
+const inpageContent = fs.readFileSync(path.join(__dirname, '..', '..', 'dist', 'chrome', 'inpage.js'), 'utf8').toString()
 const inpageSuffix = '//# sourceURL=' + extension.extension.getURL('inpage.js') + '\n'
 const inpageBundle = inpageContent + inpageSuffix
 
@@ -21,130 +20,86 @@ const inpageBundle = inpageContent + inpageSuffix
 // MetaMask will be much faster loading and performant on Firefox.
 
 if (shouldInjectWeb3()) {
-  injectScript(inpageBundle)
-  start()
+  setupInjection()
+  setupStreams()
 }
 
 /**
- * Injects a script tag into the current document
- *
- * @param {string} content - Code to be executed in the current document
+ * Creates a script tag that injects inpage.js
  */
-function injectScript (content) {
+function setupInjection () {
   try {
-    const container = document.head || document.documentElement
-    const scriptTag = document.createElement('script')
-    scriptTag.setAttribute('async', false)
-    scriptTag.textContent = content
+    // inject in-page script
+    var scriptTag = document.createElement('script')
+    scriptTag.textContent = inpageBundle
+    scriptTag.onload = function () { this.parentNode.removeChild(this) }
+    var container = document.head || document.documentElement
+    // append as first child
     container.insertBefore(scriptTag, container.children[0])
-    container.removeChild(scriptTag)
   } catch (e) {
-    console.error('MetaMask script injection failed', e)
+    console.error('TomoMask injection failed.', e)
   }
-}
-
-/**
- * Sets up the stream communication and submits site metadata
- *
- */
-async function start () {
-  await setupStreams()
-  await domIsReady()
 }
 
 /**
  * Sets up two-way communication streams between the
- * browser extension and local per-page browser context.
- *
+ * browser extension and local per-page browser context
  */
-async function setupStreams () {
-  // the transport-specific streams for communication between inpage and background
+function setupStreams () {
+  // setup communication to page and plugin
   const pageStream = new LocalMessageDuplexStream({
-    name: 'contentscript',
-    target: 'inpage',
+    name: 'nifty-contentscript',
+    target: 'nifty-inpage',
   })
-  const extensionPort = extension.runtime.connect({ name: 'contentscript' })
-  const extensionStream = new PortStream(extensionPort)
+  const pluginPort = extension.runtime.connect({ name: 'contentscript' })
+  const pluginStream = new PortStream(pluginPort)
 
-  // create and connect channel muxers
-  // so we can handle the channels individually
-  const pageMux = new ObjectMultiplex()
-  pageMux.setMaxListeners(25)
-  const extensionMux = new ObjectMultiplex()
-  extensionMux.setMaxListeners(25)
-
+  // forward communication plugin->inpage
   pump(
-    pageMux,
     pageStream,
-    pageMux,
-    (err) => logStreamDisconnectWarning('MetaMask Inpage Multiplex', err)
+    pluginStream,
+    pageStream,
+    (err) => logStreamDisconnectWarning('TomoMask Contentscript Forwarding', err)
+  )
+
+  // setup local multistream channels
+  const mux = new ObjectMultiplex()
+  mux.setMaxListeners(25)
+
+  pump(
+    mux,
+    pageStream,
+    mux,
+    (err) => logStreamDisconnectWarning('TomoMask Inpage', err)
   )
   pump(
-    extensionMux,
-    extensionStream,
-    extensionMux,
-    (err) => logStreamDisconnectWarning('MetaMask Background Multiplex', err)
+    mux,
+    pluginStream,
+    mux,
+    (err) => logStreamDisconnectWarning('TomoMask Background', err)
   )
 
-  // forward communication across inpage-background for these channels only
-  forwardTrafficBetweenMuxers('provider', pageMux, extensionMux)
-  forwardTrafficBetweenMuxers('publicConfig', pageMux, extensionMux)
+  // connect ping stream
+  const pongStream = new PongStream({ objectMode: true })
+  pump(
+    mux,
+    pongStream,
+    mux,
+    (err) => logStreamDisconnectWarning('TomoMask PingPongStream', err)
+  )
 
-  // connect "phishing" channel to warning system
-  const phishingStream = extensionMux.createStream('phishing')
+  // connect phishing warning stream
+  const phishingStream = mux.createStream('phishing')
   phishingStream.once('data', redirectToPhishingWarning)
 
-  // connect "publicApi" channel to submit page metadata
-  const publicApiStream = extensionMux.createStream('publicApi')
-  const background = await setupPublicApi(publicApiStream)
-
-  return { background }
+  // ignore unused channels (handled by background, inpage)
+  mux.ignoreStream('provider')
+  mux.ignoreStream('publicConfig')
 }
 
-function forwardTrafficBetweenMuxers (channelName, muxA, muxB) {
-  const channelA = muxA.createStream(channelName)
-  const channelB = muxB.createStream(channelName)
-  pump(
-    channelA,
-    channelB,
-    channelA,
-    (err) => logStreamDisconnectWarning(`MetaMask muxed traffic for channel "${channelName}" failed.`, err)
-  )
-}
-
-async function setupPublicApi (outStream) {
-  const api = {
-    getSiteMetadata: (cb) => cb(null, getSiteMetadata()),
-  }
-  const dnode = Dnode(api)
-  pump(
-    outStream,
-    dnode,
-    outStream,
-    (err) => {
-      // report any error
-      if (err) log.error(err)
-    }
-  )
-  const background = await new Promise(resolve => dnode.once('remote', resolve))
-  return background
-}
 
 /**
- * Gets site metadata and returns it
- *
- */
-function getSiteMetadata () {
-  // get metadata
-  const metadata = {
-    name: getSiteName(window),
-    icon: getSiteIcon(window),
-  }
-  return metadata
-}
-
-/**
- * Error handler for page to extension stream disconnections
+ * Error handler for page to plugin stream disconnections
  *
  * @param {string} remoteLabel Remote stream name
  * @param {Error} err Stream connection error
@@ -208,7 +163,7 @@ function suffixCheck () {
  * @returns {boolean} {@code true} if the documentElement is an html node or if none exists
  */
 function documentElementCheck () {
-  const documentElement = document.documentElement.nodeName
+  var documentElement = document.documentElement.nodeName
   if (documentElement) {
     return documentElement.toLowerCase() === 'html'
   }
@@ -221,7 +176,7 @@ function documentElementCheck () {
  * @returns {boolean} {@code true} if the current domain is blacklisted
  */
 function blacklistedDomainCheck () {
-  const blacklistedDomains = [
+  var blacklistedDomains = [
     'uscourts.gov',
     'dropbox.com',
     'webbyawards.com',
@@ -231,10 +186,9 @@ function blacklistedDomainCheck () {
     'harbourair.com',
     'ani.gamer.com.tw',
     'blueskybooking.com',
-    'sharefile.com',
   ]
-  const currentUrl = window.location.href
-  let currentRegex
+  var currentUrl = window.location.href
+  var currentRegex
   for (let i = 0; i < blacklistedDomains.length; i++) {
     const blacklistedDomain = blacklistedDomains[i].replace('.', '\\.')
     currentRegex = new RegExp(`(?:https?:\\/\\/)(?:(?!${blacklistedDomain}).)*$`)
@@ -249,60 +203,10 @@ function blacklistedDomainCheck () {
  * Redirects the current page to a phishing information page
  */
 function redirectToPhishingWarning () {
-  console.log('MetaMask - routing to Phishing Warning component')
+  console.log('TomoMask - routing to Phishing Warning component')
   const extensionURL = extension.runtime.getURL('phishing.html')
   window.location.href = `${extensionURL}#${querystring.stringify({
     hostname: window.location.hostname,
     href: window.location.href,
   })}`
-}
-
-
-/**
- * Extracts a name for the site from the DOM
- */
-function getSiteName (window) {
-  const document = window.document
-  const siteName = document.querySelector('head > meta[property="og:site_name"]')
-  if (siteName) {
-    return siteName.content
-  }
-
-  const metaTitle = document.querySelector('head > meta[name="title"]')
-  if (metaTitle) {
-    return metaTitle.content
-  }
-
-  return document.title
-}
-
-/**
- * Extracts an icon for the site from the DOM
- */
-function getSiteIcon (window) {
-  const document = window.document
-
-  // Use the site's favicon if it exists
-  const shortcutIcon = document.querySelector('head > link[rel="shortcut icon"]')
-  if (shortcutIcon) {
-    return shortcutIcon.href
-  }
-
-  // Search through available icons in no particular order
-  const icon = Array.from(document.querySelectorAll('head > link[rel="icon"]')).find((icon) => Boolean(icon.href))
-  if (icon) {
-    return icon.href
-  }
-
-  return null
-}
-
-/**
- * Returns a promise that resolves when the DOM is loaded (does not wait for images to load)
- */
-async function domIsReady () {
-  // already loaded
-  if (['interactive', 'complete'].includes(document.readyState)) return
-  // wait for load
-  await new Promise(resolve => window.addEventListener('DOMContentLoaded', resolve, { once: true }))
 }

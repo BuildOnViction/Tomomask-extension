@@ -33,7 +33,7 @@
     "message": "Dodaj sugerowane tokeny."
   },
   "addAcquiredTokens": {
-    "message": "Dodaj tokeny pozyskane przy pomocy MetaMask"
+    "message": "Dodaj tokeny pozyskane przy pomocy TomoMask"
   },
   "amount": {
     "message": "Ilość"
@@ -46,7 +46,7 @@
     "description": "Opis aplikacji"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "TomoMask",
     "description": "Nazwa aplikacji"
   },
   "approve": {
@@ -93,7 +93,7 @@
     "message": "Twoja przeglądarka nie jest obsługiwana..."
   },
   "builtInCalifornia": {
-    "message": "MetaMask został zaprojektowany i stworzony w Kaliforni."
+    "message": "TomoMask został zaprojektowany i stworzony w Kaliforni."
   },
   "buy": {
     "message": "Kup"
@@ -119,14 +119,11 @@
   "clickCopy": {
     "message": "Kliknij żeby skopiować"
   },
-  "clickToAdd": {
-    "message": "Przycisnij $1, aby dodać go do swojego konta"
-  },
   "close": {
     "message": "Zamknij"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Żeby połączyć się z portfelem sprzętowym, należy uruchomić MetaMask z przeglądarką Google Chrome."
+    "message": "Żeby połączyć się z portfelem sprzętowym, należy uruchomić TomoMask z przeglądarką Google Chrome."
   },
   "confirm": {
     "message": "Potwierdź"
@@ -269,7 +266,7 @@
     "message": "Zdeponuj przez ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Jeśli posiadasz inne kryptowaluty, możesz nimi handlować i deponować Eter bezpośrednio do swojego portfela MetaMask. Nie trzeba żadnego konta."
+    "message": "Jeśli posiadasz inne kryptowaluty, możesz nimi handlować i deponować Eter bezpośrednio do swojego portfela TomoMask. Nie trzeba żadnego konta."
   },
   "details": {
     "message": "Szczegóły"
@@ -339,9 +336,6 @@
   },
   "exchangeRate": {
     "message": "Kurs wymiany"
-  },
-  "expandView": {
-    "message": "Rozwiń widok"
   },
   "exportPrivateKey": {
     "message": "Eksportuj klucz prywatny"
@@ -477,7 +471,7 @@
     "message": "Importuj konto"
   },
   "importAccountMsg": {
-    "message": " Importowane konta nie będą powiązane z Twoją pierwotną frazą seed MetaMask. Dowiedz się więcej o importowaniu kont "
+    "message": " Importowane konta nie będą powiązane z Twoją pierwotną frazą seed TomoMask. Dowiedz się więcej o importowaniu kont "
   },
   "importAnAccount": {
     "message": "Importuj konto"
@@ -533,7 +527,7 @@
     "description": "formatuj do importowania konta"
   },
   "keepTrackTokens": {
-    "message": "Monitoruj stan tokenów kupionych przy pomocy konta MetaMask."
+    "message": "Monitoruj stan tokenów kupionych przy pomocy konta TomoMask."
   },
   "kovan": {
     "message": "Sieć testowa Kovan"
@@ -594,16 +588,13 @@
     "message": "Wiadomość"
   },
   "metamaskDescription": {
-    "message": "MetaMask to bezpieczny portfel dla Ethereum."
+    "message": "TomoMask to bezpieczny portfel dla Ethereum."
   },
   "metamaskSeedWords": {
-    "message": "Słowa Seed MetaMask"
+    "message": "Słowa Seed TomoMask"
   },
   "min": {
     "message": "Minimum"
-  },
-  "missingYourTokens": {
-    "message": "Nie widzisz swoich token?"
   },
   "myAccounts": {
     "message": "Moje konta"
@@ -612,7 +603,7 @@
     "message": "Należy wybrać co najmniej 1 token."
   },
   "needEtherInWallet": {
-    "message": "Żeby skorzystać ze zdecentraliowanych aplikacji (dApps) przy pomocy MetaMask, potrzebujesz Eteru w swoim portfelu."
+    "message": "Żeby skorzystać ze zdecentraliowanych aplikacji (dApps) przy pomocy TomoMask, potrzebujesz Eteru w swoim portfelu."
   },
   "needImportFile": {
     "message": "Musisz wybrać plik do zaimportowania.",
@@ -956,7 +947,7 @@
     "message": "Wybierz konto"
   },
   "selectAnAccountHelp": {
-    "message": "Wybierz konto do przeglądania w MetaMask"
+    "message": "Wybierz konto do przeglądania w TomoMask"
   },
   "selectHdPath": {
     "message": "Wybierz ścieżkę HD"
@@ -1051,8 +1042,8 @@
   "supportCenter": {
     "message": "Odwiedź nasze Centrum Pomocy"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "Symbol musi mieć od 0 do 12 znaków."
+  "symbolBetweenZeroTen": {
+    "message": "Symbol musi mieć od 0 do 10 znaków."
   },
   "takesTooLong": {
     "message": "Trwa zbyt długo?"
@@ -1089,7 +1080,7 @@
     "message": "Symbol tokena"
   },
   "tokenWarning1": {
-    "message": "Monitoruj stan tokenów kupionych przy pomocy konta MetaMask. Jeśli masz tokeny kupione przy pomocy innych kont, nie pojawią się tutaj."
+    "message": "Monitoruj stan tokenów kupionych przy pomocy konta TomoMask. Jeśli masz tokeny kupione przy pomocy innych kont, nie pojawią się tutaj."
   },
   "total": {
     "message": "Suma"
@@ -1132,7 +1123,7 @@
     "message": "Witamy w nowym interfejsie (Beta)"
   },
   "uiWelcomeMessage": {
-    "message": "Używasz teraz nowego interfejsu MetaMask."
+    "message": "Używasz teraz nowego interfejsu TomoMask."
   },
   "unapproved": {
     "message": "Niezatwierdzone"
@@ -1201,8 +1192,8 @@
   "welcomeBack": {
     "message": "Witaj z powrotem!"
   },
-  "welcome": {
-    "message": "Witaj w MetaMask"
+  "welcomeBeta": {
+    "message": "Witaj w TomoMask Beta"
   },
   "whatsThis": {
     "message": "Co to jest?"

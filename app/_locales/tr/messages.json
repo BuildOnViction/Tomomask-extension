@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "Gizlilik modu"
-  },
-  "privacyModeDescription": {
-    "message": "Web siteleri, hesap bilgilerinizi görmek için erişim istemek zorundadır."
-  },
-  "exposeAccounts": {
-    "message": "Hesapları Açığa Çıkar"
-  },
-  "exposeDescription": {
-    "message": "Hesapları mevcut web sitesine gösterin. Eski dapps için kullanışlıdır."
-  },
-  "confirmExpose": {
-    "message": "Hesaplarınızı mevcut web sitesine taşımak istediğinizden emin misiniz?"
-  },
-  "confirmClear": {
-    "message": "Onaylanmış web sitelerini silmek istediğinizden emin misiniz?"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "Onaylanan web sitesi verileri başarıyla temizlendi."
-  },
-  "approvalData": {
-    "message": "Onay Verileri"
-  },
-  "approvalDataDescription": {
-    "message": "Onaylanan web sitesi verilerini temizle, tüm sitelerin tekrar onay isteğinde bulunması gerekir."
-  },
-  "clearApprovalData": {
-    "message": "Onay verilerini temizle"
-  },
-  "approve": {
-    "message": "Onaylamak"
-  },
-  "reject": {
-    "message": "Reddetmek"
-  },
-  "providerAPIRequest": {
-    "message": "Web3 API İsteği"
-  },
-  "reviewProviderRequest": {
-    "message": "Lütfen bu Ethereum API isteğini inceleyin."
-  },
-  "providerRequestInfo": {
-    "message": "Aşağıda listelenen etki alanı, Ethereum API'sine erişim talep etmeye çalışmaktadır, böylece Ethereum blockchain ile etkileşime girebilir. Web3 erişimini onaylamadan önce her zaman doğru sitede olduğunuzu kontrol edin."
-  },
   "accept": {
     "message": "Kabul et"
   },
@@ -79,7 +34,7 @@
     "description": "Uygulama açıklaması"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "TomoMask",
     "description": "Uygulama ismi"
   },
   "approved": {
@@ -120,7 +75,7 @@
     "message": "Dharma (Beta) ile ödünç al"
   },
   "builtInCalifornia": {
-    "message": "MetaMask California'da tasarlandı ve yaratıldı"
+    "message": "TomoMask California'da tasarlandı ve yaratıldı"
   },
   "buy": {
     "message": "Satın al"
@@ -130,12 +85,6 @@
   },
   "buyCoinbaseExplainer": {
     "message": "Coinbase Bitcoin, Ethereum, and Litecoin alıp satmanın dünyadaki en popüler yolu"
-  },
-  "buyCoinSwitch": {
-    "message": "CoinSwitch'de satın al"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "Cairnswich, 300'den fazla kriptona en iyi oranda eşlik eden tek durak noktasıdır."
   },
   "ok": {
     "message": "Tamam"
@@ -169,9 +118,6 @@
   },
   "continueToCoinbase": {
     "message": "Coinbase'e devam et"
-  },
-  "continueToCoinSwitch": {
-    "message": "CoinSwitch'e devam et"
   },
   "contractDeployment": {
     "message": "Sözleşme kurulumu"
@@ -244,7 +190,7 @@
     "message": "Ether işlemleri için varsayılan ağ Main Net."
   },
   "denExplainer": {
-    "message": "DEN'iniz MetaMask içersinde parola-şifrelenmiş deponuzdur."
+    "message": "DEN'iniz TomoMask içersinde parola-şifrelenmiş deponuzdur."
   },
   "deposit": {
     "message": "Yatır"
@@ -272,7 +218,7 @@
     "message": "ShapeShift ile yatır"
   },
   "depositShapeShiftExplainer": {
-    "message": "Eğer başka kripto paralara sahipseniz, MetaMask cüzdanınıza direk olarak Ether yatırabilirsiniz. Hesaba gerek yoktur."
+    "message": "Eğer başka kripto paralara sahipseniz, TomoMask cüzdanınıza direk olarak Ether yatırabilirsiniz. Hesaba gerek yoktur."
   },
   "details": {
     "message": "Ayrıntılar"
@@ -426,7 +372,7 @@
     "message": "Hesap Al"
   },
   "importAccountMsg": {
-    "message": " Alınan hesaplar orjinal kaynakifadenizle yarattığınız MetaMask hesabınızla ilişkilendirilmez. Alınan hesaplar ile ilgili daha fazla bilgi edinin "
+    "message": " Alınan hesaplar orjinal kaynakifadenizle yarattığınız TomoMask hesabınızla ilişkilendirilmez. Alınan hesaplar ile ilgili daha fazla bilgi edinin "
   },
   "importAnAccount": {
     "message": "Hesap al"
@@ -473,7 +419,7 @@
     "description": "Hesap alımı için düzenle"
   },
   "keepTrackTokens": {
-    "message": "MetaMask hesabınızla satın aldığınız jetonların kaydını tutun."
+    "message": "TomoMask hesabınızla satın aldığınız jetonların kaydını tutun."
   },
   "kovan": {
     "message": "Kovan Test Ağı"
@@ -528,7 +474,7 @@
     "message": "Mesaj"
   },
   "metamaskDescription": {
-    "message": "MetaMask Ethereum için güvenli bir kimlik kasasıdır."
+    "message": "TomoMask Ethereum için güvenli bir kimlik kasasıdır."
   },
   "min": {
     "message": "Minimum"
@@ -540,7 +486,7 @@
     "message": "En az bir jeton seçilmeli"
   },
   "needEtherInWallet": {
-    "message": "MetaMask kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ether bulunmalıdır."
+    "message": "TomoMask kullanarak merkezi olamayan uygulamalarla etkileşmek için cüzdanınızda Ether bulunmalıdır."
   },
   "needImportFile": {
     "message": "Almak için bir dosya seçmelisiniz.",
@@ -837,8 +783,8 @@
   "supportCenter": {
     "message": "Destek merkezimizi ziyaret edin"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "Sembol 0 ve 12 karakter aralığında olmalıdır."
+  "symbolBetweenZeroTen": {
+    "message": "Sembol 0 ve 10 karakter aralığında olmalıdır."
   },
   "takesTooLong": {
     "message": "Çok mu uzun sürüyor?"
@@ -872,7 +818,7 @@
     "message": "Jeton Sembolü"
   },
   "tokenWarning1": {
-    "message": "MetaMask hesabınızla aldığınız jetonların kaydını tutun. Başka bir hesapla jetonlar satın aldıysanız, o jetonlar burada gözükmeyecektir."
+    "message": "TomoMask hesabınızla aldığınız jetonların kaydını tutun. Başka bir hesapla jetonlar satın aldıysanız, o jetonlar burada gözükmeyecektir."
   },
   "total": {
     "message": "Toplam"
@@ -897,7 +843,7 @@
     "description": "Jeton bakiyelerini görmek için bir link (burası) ile takip ediliyor"
   },
   "twelveWords": {
-    "message": "MetaMask hesaplarınızı geri getirmenin tek yolu bu 12 kelimedir.\nBu kelimeleri güvenli ve gizli bir yerde saklayın."
+    "message": "TomoMask hesaplarınızı geri getirmenin tek yolu bu 12 kelimedir.\nBu kelimeleri güvenli ve gizli bir yerde saklayın."
   },
   "typePassword": {
     "message": "Parolanızı girin"
@@ -906,7 +852,7 @@
     "message": "Yeni UI (Beta)'ya hoşgeldiniz"
   },
   "uiWelcomeMessage": {
-    "message": "Şu anda yeni MetaMask UI kullanmaktasınız. Gözatın, jeton gönderme gibi yeni özellikleri deneyin ve herhangi bir sorunlar karşılaşırsanız bize haber verin"
+    "message": "Şu anda yeni TomoMask UI kullanmaktasınız. Gözatın, jeton gönderme gibi yeni özellikleri deneyin ve herhangi bir sorunlar karşılaşırsanız bize haber verin"
   },
   "unapproved": {
     "message": "Onaylanmadı"
@@ -951,8 +897,8 @@
   "warning": {
     "message": "Uyarı"
   },
-  "welcome": {
-    "message": "MetaMask'ya Hoşgeldiniz"
+  "welcomeBeta": {
+    "message": "TomoMask Beta'ya Hoşgeldiniz"
   },
   "whatsThis": {
     "message": "Bu nedir?"

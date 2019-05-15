@@ -1,4 +1,4 @@
-const EventEmitter = require('safe-event-emitter')
+const EventEmitter = require('events')
 const log = require('loglevel')
 const EthQuery = require('ethjs-query')
 
@@ -27,7 +27,6 @@ class PendingTransactionTracker extends EventEmitter {
     this.getPendingTransactions = config.getPendingTransactions
     this.getCompletedTransactions = config.getCompletedTransactions
     this.publishTransaction = config.publishTransaction
-    this.approveTransaction = config.approveTransaction
     this.confirmTransaction = config.confirmTransaction
   }
 
@@ -109,7 +108,7 @@ class PendingTransactionTracker extends EventEmitter {
     if (txBlockDistance <= Math.pow(2, retryCount) - 1) return
 
     // Only auto-submit already-signed txs:
-    if (!('rawTx' in txMeta)) return this.approveTransaction(txMeta.id)
+    if (!('rawTx' in txMeta)) return
 
     const rawTx = txMeta.rawTx
     const txHash = await this.publishTransaction(rawTx)
@@ -129,9 +128,6 @@ class PendingTransactionTracker extends EventEmitter {
   async _checkPendingTx (txMeta) {
     const txHash = txMeta.hash
     const txId = txMeta.id
-
-    // Only check submitted txs
-    if (txMeta.status !== 'submitted') return
 
     // extra check in case there was an uncaught error during the
     // signature and submission process

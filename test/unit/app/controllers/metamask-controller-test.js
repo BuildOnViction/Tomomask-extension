@@ -49,7 +49,7 @@ describe('MetaMaskController', function () {
       showUnapprovedTx: noop,
       showUnconfirmedMessage: noop,
       encryptor: {
-        encrypt: function (_, object) {
+        encrypt: function (password, object) {
           this.object = object
           return Promise.resolve('mock-encrypted')
         },
@@ -58,7 +58,6 @@ describe('MetaMaskController', function () {
         },
       },
       initState: clone(firstTimeState),
-      platform: { showTransactionNotification: () => {} },
     })
     // disable diagnostics
     metamaskController.diagnostics = null
@@ -116,7 +115,7 @@ describe('MetaMaskController', function () {
         },
       }
 
-      const gasPrice = metamaskController.getGasPrice()
+      const gasPrice = await metamaskController.getGasPrice()
       assert.equal(gasPrice, '0x174876e800', 'accurately estimates 65th percentile accepted gas price')
 
       metamaskController.recentBlocksController = realRecentBlocksController
@@ -144,7 +143,7 @@ describe('MetaMaskController', function () {
       sandbox.stub(metamaskController, 'getBalance')
       metamaskController.getBalance.callsFake(() => { return Promise.resolve('0x0') })
 
-      await metamaskController.createNewVaultAndRestore(password, TEST_SEED.slice(0, -1)).catch(() => null)
+      await metamaskController.createNewVaultAndRestore(password, TEST_SEED.slice(0, -1)).catch((e) => null)
       await metamaskController.createNewVaultAndRestore(password, TEST_SEED)
 
       assert(metamaskController.keyringController.createNewVaultAndRestore.calledTwice)
@@ -207,7 +206,7 @@ describe('MetaMaskController', function () {
       const accounts = {}
       const balance = '0x14ced5122ce0a000'
       const ethQuery = new EthQuery()
-      sinon.stub(ethQuery, 'getBalance').callsFake((_, callback) => {
+      sinon.stub(ethQuery, 'getBalance').callsFake((account, callback) => {
         callback(undefined, balance)
       })
 
@@ -295,7 +294,7 @@ describe('MetaMaskController', function () {
 
     it('should add the Trezor Hardware keyring', async function () {
       sinon.spy(metamaskController.keyringController, 'addNewKeyring')
-      await metamaskController.connectHardware('trezor', 0).catch(() => null)
+      await metamaskController.connectHardware('trezor', 0).catch((e) => null)
       const keyrings = await metamaskController.keyringController.getKeyringsByType(
         'Trezor Hardware'
       )
@@ -305,7 +304,7 @@ describe('MetaMaskController', function () {
 
     it('should add the Ledger Hardware keyring', async function () {
       sinon.spy(metamaskController.keyringController, 'addNewKeyring')
-      await metamaskController.connectHardware('ledger', 0).catch(() => null)
+      await metamaskController.connectHardware('ledger', 0).catch((e) => null)
       const keyrings = await metamaskController.keyringController.getKeyringsByType(
         'Ledger Hardware'
       )
@@ -325,7 +324,7 @@ describe('MetaMaskController', function () {
     })
 
     it('should be locked by default', async function () {
-      await metamaskController.connectHardware('trezor', 0).catch(() => null)
+      await metamaskController.connectHardware('trezor', 0).catch((e) => null)
       const status = await metamaskController.checkHardwareStatus('trezor')
       assert.equal(status, false)
     })
@@ -341,7 +340,7 @@ describe('MetaMaskController', function () {
     })
 
     it('should wipe all the keyring info', async function () {
-      await metamaskController.connectHardware('trezor', 0).catch(() => null)
+      await metamaskController.connectHardware('trezor', 0).catch((e) => null)
       await metamaskController.forgetDevice('trezor')
       const keyrings = await metamaskController.keyringController.getKeyringsByType(
         'Trezor Hardware'
@@ -353,13 +352,14 @@ describe('MetaMaskController', function () {
     })
   })
 
-  describe('unlockHardwareWalletAccount', function () {
+  describe.skip('unlockHardwareWalletAccount', function () {
     let accountToUnlock
     let windowOpenStub
     let addNewAccountStub
     let getAccountsStub
     beforeEach(async function () {
-      accountToUnlock = 10
+      this.timeout(10000)
+      accountToUnlock = 4
       windowOpenStub = sinon.stub(window, 'open')
       windowOpenStub.returns(noop)
 
@@ -376,7 +376,8 @@ describe('MetaMaskController', function () {
       sinon.spy(metamaskController.preferencesController, 'setAddresses')
       sinon.spy(metamaskController.preferencesController, 'setSelectedAddress')
       sinon.spy(metamaskController.preferencesController, 'setAccountLabel')
-      await metamaskController.connectHardware('trezor', 0, `m/44/0'/0'`).catch(() => null)
+      await metamaskController.connectHardware('trezor', 0, `m/44/0'/0'`).catch((e) => null)
+
       await metamaskController.unlockHardwareWalletAccount(accountToUnlock, 'trezor', `m/44/0'/0'`)
     })
 
@@ -679,11 +680,12 @@ describe('MetaMaskController', function () {
       const msgParams = {
         'data': data,
       }
+
       try {
         await metamaskController.newUnsignedPersonalMessage(msgParams)
         assert.fail('should have thrown')
       } catch (error) {
-        assert.equal(error.message, 'MetaMask Message Signature: from field is required.')
+        assert.equal(error.message, 'TomoMask Message Signature: from field is required.')
       }
     })
 
@@ -752,11 +754,12 @@ describe('MetaMaskController', function () {
     })
 
     it('sets up phishing stream for untrusted communication ', async () => {
-      await metamaskController.phishingController.updatePhishingLists()
+      await metamaskController.blacklistController.updatePhishingList()
+      console.log(blacklistJSON.blacklist.includes(phishingUrl))
 
       const { promise, resolve } = deferredPromise()
 
-      streamTest = createThoughStream((chunk, _, cb) => {
+      streamTest = createThoughStream((chunk, enc, cb) => {
         if (chunk.name !== 'phishing') return cb()
         assert.equal(chunk.data.hostname, phishingUrl)
         resolve()
@@ -776,7 +779,7 @@ describe('MetaMaskController', function () {
     })
 
     it('sets up controller dnode api for trusted communication', function (done) {
-      streamTest = createThoughStream((chunk, _, cb) => {
+      streamTest = createThoughStream((chunk, enc, cb) => {
         assert.equal(chunk.name, 'controller')
         cb()
         done()

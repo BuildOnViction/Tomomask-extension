@@ -14,9 +14,9 @@
 
 const render = require('react-dom').render
 const h = require('react-hyperscript')
-const Root = require('../ui/app/pages')
-const configureStore = require('../ui/app/store/store')
-const actions = require('../ui/app/store/actions')
+const Root = require('../ui/app/root')
+const configureStore = require('../ui/app/store')
+const actions = require('../ui/app/actions')
 const states = require('./states')
 const backGroundConnectionModifiers = require('./backGroundConnectionModifiers')
 const Selector = require('./selector')
@@ -42,7 +42,7 @@ if (routerPath) {
   queryString = qs.parse(routerPath.split('?')[1])
 }
 
-selectedView = queryString.view || 'send new ui'
+selectedView = queryString.view || 'first time'
 const firstState = states[selectedView]
 updateQueryParams(selectedView)
 
@@ -62,7 +62,7 @@ function updateQueryParams (newView) {
 // CSS
 //
 
-const MetaMaskUiCss = require('../ui/css')
+const MetaMaskUiCss = require('../old-ui/css')
 const injectCss = require('inject-css')
 
 //

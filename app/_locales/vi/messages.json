@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "Chế độ riêng tư"
-  },
-  "privacyModeDescription": {
-    "message": "Trang web phải yêu cầu quyền truy cập để xem thông tin tài khoản của bạn."
-  },
-  "exposeAccounts": {
-    "message": "Hiển thị tài khoản"
-  },
-  "exposeDescription": {
-    "message": "Hiển thị tài khoản cho trang web hiện tại. Hữu ích cho các ứng dụng cũ."
-  },
-  "confirmExpose": {
-    "message": "Bạn có chắc chắn muốn hiển thị tài khoản của mình cho trang web hiện tại không?"
-  },
-  "confirmClear": {
-    "message": "Bạn có chắc chắn muốn xóa các trang web được phê duyệt không?"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "Đã xóa thành công dữ liệu trang web được phê duyệt."
-  },
-  "approvalData": {
-    "message": "Dữ liệu phê duyệt"
-  },
-  "approvalDataDescription": {
-    "message": "Xóa dữ liệu trang web được phê duyệt để tất cả các trang web phải yêu cầu phê duyệt lại."
-  },
-  "clearApprovalData": {
-    "message": "Xóa dữ liệu phê duyệt"
-  },
-  "approve": {
-    "message": "Phê duyệt"
-  },
-  "reject": {
-    "message": "Từ chối"
-  },
-  "providerAPIRequest": {
-    "message": "Yêu cầu API Web3"
-  },
-  "reviewProviderRequest": {
-    "message": "Vui lòng xem lại yêu cầu API Ethereum này."
-  },
-  "providerRequestInfo": {
-    "message": "Miền được liệt kê bên dưới đang cố gắng yêu cầu quyền truy cập vào API Ethereum để nó có thể tương tác với chuỗi khối Ethereum. Luôn kiểm tra kỹ xem bạn có đang ở đúng trang web trước khi phê duyệt quyền truy cập Ethereum hay không."
-  },
   "accept": {
     "message": "Chấp nhận"
   },
@@ -74,7 +29,7 @@
   },
   "appName": {
     "description": "Tên phần mềm",
-    "message": "MetaMask"
+    "message": "TomoMask"
   },
   "attemptingConnect": {
     "message": "Đang kết nối đến blockchain."
@@ -110,12 +65,6 @@
   "buyCoinbaseExplainer": {
     "message": "Coinbase là dịch vụ ví điện tử thông dụng nhất thế giới để mua bán Bitcoin, Ethereum, và Litecoin"
   },
-  "buyCoinSwitch": {
-    "message": "Mua trên CoinSwitch"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "CoinSwitch là điểm đến duy nhất để trao đổi hơn 300 tiền điện tử với tốc độ tốt nhất."
-  },
   "cancel": {
     "message": "Hủy"
   },
@@ -136,9 +85,6 @@
   },
   "continueToCoinbase": {
     "message": "Tiếp tục đến Coinbase"
-  },
-  "continueToCoinSwitch": {
-    "message": "Tiếp tục đến CoinSwitch"
   },
   "contractDeployment": {
     "message": "Triển khai hợp đồng"
@@ -193,7 +139,7 @@
     "message": "Mạng lưới mặc định dùng cho các giao dịch Ether là Main Net (tiền ETH thật)."
   },
   "denExplainer": {
-    "message": "Số DEN của bạn là mật khẩu đã được mã hóa và lưu trữ trong MetaMask"
+    "message": "Số DEN của bạn là mật khẩu đã được mã hóa và lưu trữ trong TomoMask"
   },
   "deposit": {
     "message": "Ký gửi/nạp tiền"
@@ -221,7 +167,7 @@
     "message": "Ký gửi với ShapeShift"
   },
   "depositShapeShiftExplainer": {
-    "message": "Nếu bạn sở hữu các đồng tiền điện tử khác, bạn có thể giao dịch và ký gửi Ether trực tiếp vào ví MetaMask của bạn. Không cần tạo thêm tài khoản."
+    "message": "Nếu bạn sở hữu các đồng tiền điện tử khác, bạn có thể giao dịch và ký gửi Ether trực tiếp vào ví TomoMask của bạn. Không cần tạo thêm tài khoản."
   },
   "details": {
     "message": "Chi tiết"
@@ -408,7 +354,7 @@
     "message": "Tài khoản của tôi"
   },
   "needEtherInWallet": {
-    "message": "Để tương tác với các ứng dụng phân tán bằng MetaMask, bạn sẽ phải cần có Ether trong ví của bạn."
+    "message": "Để tương tác với các ứng dụng phân tán bằng TomoMask, bạn sẽ phải cần có Ether trong ví của bạn."
   },
   "needImportFile": {
     "description": "Người dùng đang nhập một tài khoản và cần thêm tập tin để tiếp tục",
@@ -526,6 +472,9 @@
   "rinkeby": {
     "message": "Mạng thử nghiệm Rinkeby"
   },
+  "poa": {
+    "message": "[Not translated]"
+  },
   "ropsten": {
     "message": "Mạng thử nghiệm Ropsten"
   },
@@ -624,7 +573,7 @@
     "message": "Chào mừng bạn đến với giao diện mới (Beta)"
   },
   "uiWelcomeMessage": {
-    "message": "Bạn đang sử dụng giao diện mới của MetaMask. Chúng tôi khuyến khích bạn thử nghiệm và khám phá các tính năng mới như gửi token, và nếu bạn có gặp phải vấn đề gì khó khăn, xin hãy liên hệ ngay để chúng tôi có thể giúp đỡ bạn."
+    "message": "Bạn đang sử dụng giao diện mới của TomoMask. Chúng tôi khuyến khích bạn thử nghiệm và khám phá các tính năng mới như gửi token, và nếu bạn có gặp phải vấn đề gì khó khăn, xin hãy liên hệ ngay để chúng tôi có thể giúp đỡ bạn."
   },
   "unavailable": {
     "message": "Không có sẵn"

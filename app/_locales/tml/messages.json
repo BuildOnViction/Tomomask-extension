@@ -1,49 +1,4 @@
 {
-  "privacyMode": {
-    "message": "தனியுரிமை முறை"
-  },
-  "privacyModeDescription": {
-    "message": "உங்கள் கணக்குத் தகவலை பார்வையிட வலைத்தளங்கள் அணுகலைக் கோர வேண்டும்."
-  },
-  "exposeAccounts": {
-    "message": "கணக்குகளை அம்பலப்படுத்துங்கள்"
-  },
-  "exposeDescription": {
-    "message": "தற்போதைய இணையதளத்திற்கு கணக்குகளை அம்பலப்படுத்துங்கள். மரபணு டாப்ஸ் பயன்படுத்த."
-  },
-  "confirmExpose": {
-    "message": "நிச்சயமாக உங்கள் கணக்குகளை தற்போதைய இணையத்தளத்தில் அம்பலப்படுத்த விரும்புகிறீர்களா?"
-  },
-  "confirmClear": {
-    "message": "அங்கீகரிக்கப்பட்ட வலைத்தளங்களை நிச்சயமாக நீக்க விரும்புகிறீர்களா?"
-  },
-  "clearApprovalDataSuccess": {
-    "message": "அங்கீகரிக்கப்பட்ட வலைத்தள தரவு வெற்றிகரமாக அழிக்கப்பட்டது."
-  },
-  "approvalData": {
-    "message": "ஒப்புதல் தரவு"
-  },
-  "approvalDataDescription": {
-    "message": "அங்கீகரிக்கப்பட்ட வலைத்தள தரவை அழிக்கவும், அனைத்து தளங்களும் ஒப்புதல் மீண்டும் கோர வேண்டும்."
-  },
-  "clearApprovalData": {
-    "message": "ஒப்புதல் தரவை அழி"
-  },
-  "approve": {
-    "message": "ஒப்புதல்"
-  },
-  "reject": {
-    "message": "நிராகரி"
-  },
-  "providerAPIRequest": {
-    "message": "Web3 API கோரிக்கை"
-  },
-  "reviewProviderRequest": {
-    "message": "இந்த வலை 3 API கோரிக்கையை மதிப்பாய்வு செய்யவும்."
-  },
-  "providerRequestInfo": {
-    "message": "கீழே பட்டியலிடப்பட்டுள்ள டொமைன் Web3 ஏபிஐ அணுகலைக் கோருவதற்கு முயற்சிக்கிறது, எனவே இது Ethereum blockchain உடன் தொடர்பு கொள்ள முடியும். Web3 அணுகுமுறையை அங்கீகரிப்பதற்கு முன் சரியான தளத்தில் இருப்பதை எப்போதும் இருமுறை சரிபார்க்கவும்."
-  },
   "accept": {
     "message": "ஏற்கவும்"
   },
@@ -131,12 +86,6 @@
   "buyCoinbaseExplainer": {
     "message": "கோஇன்பசே பிறகாய்ன் , எதெரியும் மற்றும் ளிட்டசோன் வாங்க மற்றும் விற்க உலகின் மிகவும் பிரபலமான வழி"
   },
-  "buyCoinSwitch": {
-    "message": "நாணயம் ஸ்விட்சில் வாங்கவும்"
-  },
-  "buyCoinSwitchExplainer": {
-    "message": "சிறந்த விகிதத்தில் 300 க்கும் அதிகமான cryptocurrencies ஐ பரிமாறிக்கொள்ள ஒரு நாணயமாற்று இலக்கு நாணயம் ஸ்விட்ச் ஆகும்."
-  },
   "ok": {
     "message": "சரி"
   },
@@ -169,9 +118,6 @@
   },
   "continueToCoinbase": {
     "message": "கோஇன்பசே ஐத் தொடரவும்"
-  },
-  "continueToCoinSwitch": {
-    "message": "நாணயம் மாறாமல் தொடர்க"
   },
   "contractDeployment": {
     "message": "ஒப்பந்த வரிசைப்படுத்தல்"
@@ -697,6 +643,9 @@
   "rinkeby": {
     "message": "ரிங்கெப்ய டெஸ்ட் நெட்வொர்க்"
   },
+  "poa": {
+    "message": "[Not translated]"
+  },
   "ropsten": {
     "message": "ரொப்ஸ்டென் டெஸ்ட் நெட்வொர்க்"
   },
@@ -714,6 +663,9 @@
   },
   "connectingToRinkeby": {
     "message": "ரிங்கெப்ய டெஸ்ட் நெட்வொர்க்குடன் இணைக்கிறது"
+  },
+  "connectingToPOA": {
+    "message": "[Not translated]"
   },
   "connectingToUnknown": {
     "message": "தெரியாத நெட்வொர்க்குடன் இணைக்கிறது"
@@ -837,8 +789,8 @@
   "supportCenter": {
     "message": "எங்கள் ஆதரவு மையத்தைப் பார்வையிடவும்"
   },
-  "symbolBetweenZeroTwelve": {
-    "message": "குறியீடு 0 மற்றும் 12 எழுத்துகளுக்கு இடையில் இருக்க வேண்டும்."
+  "symbolBetweenZeroTen": {
+    "message": "குறியீடு 0 மற்றும் 10 எழுத்துகளுக்கு இடையில் இருக்க வேண்டும்."
   },
   "takesTooLong": {
     "message": "நீண்ட நேரம் எடுத்துக்கொள்கிறது?"
@@ -951,7 +903,7 @@
   "warning": {
     "message": "எச்சரிக்கை"
   },
-  "welcome": {
+  "welcomeBeta": {
     "message": "மெட்டாமாஸ்க் பீட்டாவுக்கு வருக"
   },
   "whatsThis": {

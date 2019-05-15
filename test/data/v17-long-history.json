@@ -54,8 +54,7 @@
         "mainnet": "degraded",
         "ropsten": "ok",
         "kovan": "ok",
-        "rinkeby": "ok",
-        "goerli": "ok"
+        "rinkeby": "ok"
       }
     },
     "BlacklistController": {

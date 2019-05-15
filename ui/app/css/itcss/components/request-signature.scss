@@ -19,7 +19,7 @@
     }
 
     @media screen and (min-width: $break-large) {
-      height: 620px;
+      max-height: 620px;
     }
   }
 

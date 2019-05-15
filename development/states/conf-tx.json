@@ -192,8 +192,7 @@
       "type": "testnet"
     },
     "shapeShiftTxList": [],
-    "lostAccounts": [],
-    "frequentRpcListDetail": []
+    "lostAccounts": []
   },
   "appState": {
     "menuOpen": false,

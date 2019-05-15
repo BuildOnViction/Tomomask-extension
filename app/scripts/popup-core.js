@@ -1,11 +1,11 @@
-const {EventEmitter} = require('events')
+const EventEmitter = require('events').EventEmitter
 const async = require('async')
 const Dnode = require('dnode')
 const Eth = require('ethjs')
 const EthQuery = require('eth-query')
 const launchMetamaskUi = require('../../ui')
 const StreamProvider = require('web3-stream-provider')
-const {setupMultiplex} = require('./lib/stream-utils.js')
+const setupMultiplex = require('./lib/stream-utils.js').setupMultiplex
 
 module.exports = initializePopup
 
@@ -32,7 +32,7 @@ function initializePopup ({ container, connectionStream }, cb) {
 function connectToAccountManager (connectionStream, cb) {
   // setup communication with background
   // setup multiplexing
-  const mx = setupMultiplex(connectionStream)
+  var mx = setupMultiplex(connectionStream)
   // connect features
   setupControllerConnection(mx.createStream('controller'), cb)
   setupWeb3Connection(mx.createStream('provider'))
@@ -44,7 +44,7 @@ function connectToAccountManager (connectionStream, cb) {
  * @param {PortDuplexStream} connectionStream PortStream instance establishing a background connection
  */
 function setupWeb3Connection (connectionStream) {
-  const providerStream = new StreamProvider()
+  var providerStream = new StreamProvider()
   providerStream.pipe(connectionStream).pipe(providerStream)
   connectionStream.on('error', console.error.bind(console))
   providerStream.on('error', console.error.bind(console))
@@ -62,8 +62,8 @@ function setupWeb3Connection (connectionStream) {
 function setupControllerConnection (connectionStream, cb) {
   // this is a really sneaky way of adding EventEmitter api
   // to a bi-directional dnode instance
-  const eventEmitter = new EventEmitter()
-  const accountManagerDnode = Dnode({
+  var eventEmitter = new EventEmitter()
+  var accountManagerDnode = Dnode({
     sendUpdate: function (state) {
       eventEmitter.emit('update', state)
     },
